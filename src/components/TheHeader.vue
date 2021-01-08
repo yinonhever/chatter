@@ -1,0 +1,97 @@
+<template>
+  <header class="header">
+    <RouterLink to="/">
+      <h1 class="header__logo">Chatter</h1>
+    </RouterLink>
+    <nav class="header__navigation">
+      <NavLink v-if="!isAuth" to="/login">Login</NavLink>
+      <NavLink v-if="!isAuth" to="/signup">Signup</NavLink>
+      <GreetingBox v-if="isAuth" />
+      <NavLink v-if="isAuth" to="/chats">My Chats</NavLink>
+      <span v-if="isAuth" class="header__nav-link" @click="logout">Logout</span>
+    </nav>
+  </header>
+</template>
+
+<script>
+import NavLink from "./NavLink";
+import GreetingBox from "./GreetingBox";
+
+export default {
+  components: { NavLink, GreetingBox },
+  computed: {
+    isAuth() {
+      return this.$store.getters.isAuth;
+    },
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 5rem;
+
+  &__logo {
+    display: inline-block;
+    font-size: 4.8rem;
+    font-family: "Monofett", cursive;
+    color: #1520a6;
+    margin-bottom: 0.8rem;
+
+    @media only screen and (max-width: 500px) {
+      font-size: 4.1rem;
+    }
+  }
+
+  &__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 195px;
+
+    @media only screen and (max-width: 900px) {
+      display: none;
+    }
+  }
+
+  &__nav-link {
+    text-transform: uppercase;
+    font-size: 1.35rem;
+    letter-spacing: 1px;
+    font-weight: 500;
+    transition: color 0.5s;
+    cursor: pointer;
+    animation: fadeIn 0.5s ease-out;
+
+    &:hover,
+    &.active {
+      color: #007bff;
+    }
+
+    &:not(:last-child) {
+      margin-right: 4rem;
+
+      @media only screen and (max-width: 1100px) {
+        margin-right: 3rem;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+</style>

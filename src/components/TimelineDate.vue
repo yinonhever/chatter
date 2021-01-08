@@ -1,0 +1,48 @@
+<template>
+  <section class="date-section">
+    <h3 class="date-section__date">
+      {{ displayedDate }}
+    </h3>
+    <div class="date-section__messages">
+      <TimelineMessage
+        v-for="message in messages"
+        :key="message.created_at"
+        :message="message"
+      />
+    </div>
+  </section>
+</template>
+
+<script>
+import TimelineMessage from "./TimelineMessage";
+import moment from "moment";
+
+export default {
+  components: { TimelineMessage },
+  props: {
+    date: Date,
+    messages: Array,
+  },
+  computed: {
+    displayedDate() {
+      return (
+        moment(this.date).format("ddd") + ", " + moment(this.date).format("ll")
+      );
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+.date-section {
+  &:not(:last-child) {
+    margin-bottom: 4rem;
+  }
+
+  &__date {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
+}
+</style>
