@@ -2,11 +2,15 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
 
 exports.signup = async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ message: errors.array()[0].msg });
+        }
         const { name, email, password } = req.body;
-
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: "A user with that email already exists" });
@@ -20,8 +24,8 @@ exports.signup = async (req, res) => {
 
         const token = jwt.sign(
             { email, userId: createdUser._id.toString() },
-            "vengrillyinbbq",
-            { expiresIn: "10h" }
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
         );
 
         res.status(201).json({
@@ -48,8 +52,8 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign(
             { email, userId: user._id.toString() },
-            "vengrillyinbbq",
-            { expiresIn: "10h" }
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
         );
         const { _id, name, avatar } = user;
 
@@ -66,7 +70,7 @@ exports.login = async (req, res) => {
 exports.getUsers = async (req, res) => {
     try {
         let users = await User.find().select("-password -chats");
-        users = users.filter(user => user._id.toString() !== req.user.id);
+        users = users.filter(user => user._id.toString() !== req.userId);
         res.status(200).json(users);
     } catch (err) {
         console.log(err);
@@ -90,8 +94,12 @@ exports.getUserDetails = async (req, res) => {
 
 exports.updateUserDetails = async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ message: errors.array()[0].msg });
+        }
         const { userId } = req.params;
-        if (userId !== req.user.id) {
+        if (userId !== req.userId) {
             return res.status(403).json({ message: "Not authorized to edit this user's details" });
         }
         const user = await User.findById(userId).select("-password -chats");
@@ -99,9 +107,7 @@ exports.updateUserDetails = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
         for (let key in req.body) {
-            if (req.body[key].toString().trim()) {
-                user[key] = req.body[key];
-            }
+            user[key] = req.body[key];
         }
         await user.save();
         res.status(200).json({ message: "Successfully updated profile", user });

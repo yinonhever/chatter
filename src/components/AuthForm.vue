@@ -4,7 +4,6 @@
       <input
         v-if="mode === 'signup'"
         v-model.trim="formData.name"
-        type="name"
         required
         placeholder="Name"
         class="form__input"
@@ -20,7 +19,6 @@
         v-model.trim="formData.password"
         type="password"
         required
-        minlength="6"
         placeholder="Password"
         class="form__input"
       />
@@ -29,7 +27,6 @@
         v-model.trim="formData.confirmPassword"
         type="password"
         required
-        minlength="6"
         placeholder="Confirm Password"
         class="form__input"
       />
@@ -71,10 +68,6 @@ export default {
   methods: {
     async submitHandler() {
       const { name, email, password, confirmPassword } = this.formData;
-      if (this.mode === "signup" && password.length < 6) {
-        this.error = "Password must be at least 6 characters long";
-        return;
-      }
       if (this.mode === "signup" && password !== confirmPassword) {
         this.error = "Passwords do not match";
         return;

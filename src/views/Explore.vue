@@ -6,7 +6,7 @@
       <SearchBox @search="filterUsers" />
       <div class="explore__grid">
         <ExploreCard
-          v-for="user in filteredUsers"
+          v-for="user in filteredUsers.slice(0, 6)"
           :key="user._id"
           :user="user"
         />

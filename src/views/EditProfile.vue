@@ -1,5 +1,5 @@
 <template>
-  <Page title="EditProfile">
+  <Page title="Edit Profile">
     EDIT PROFILE
   </Page>
 </template>

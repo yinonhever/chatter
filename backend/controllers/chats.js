@@ -4,7 +4,7 @@ const io = require("../socket");
 
 exports.getUserChats = async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).populate({
+        const user = await User.findById(req.userId).populate({
             path: "chats",
             model: "Chat",
             populate: {
@@ -22,7 +22,7 @@ exports.getUserChats = async (req, res) => {
             if (chat.messages.length > 0) {
                 data.push({
                     _id: chat._id,
-                    correspondent: chat.users.find(usr => usr._id.toString() !== req.user.id),
+                    correspondent: chat.users.find(usr => usr._id.toString() !== req.userId),
                     lastMessage: chat.messages[0],
                     updatedAt: chat.updatedAt
                 });
@@ -37,44 +37,13 @@ exports.getUserChats = async (req, res) => {
     }
 }
 
-// exports.getChat = async (req, res) => {
-//     try {
-//         const { chatId } = req.params;
-//         const chat = await Chat.findById(chatId).populate([
-//             {
-//                 path: "users",
-//                 model: "User",
-//                 select: "name email avatar"
-//             },
-//             {
-//                 path: "messages",
-//                 populate: {
-//                     path: "sender",
-//                     model: "User",
-//                     select: "name email avatar"
-//                 }
-//             }
-//         ]);
-//         if (!chat) {
-//             return res.status(404).json({ message: "Chat not found" });
-//         }
-//         if (!chat.users.find(user => user._id.toString() === req.user.id)) {
-//             return res.status(403).json({ message: "Not authorized to view this chat" });
-//         }
-//         res.status(200).json(chat);
-//     } catch (err) {
-//         console.log(err);
-//         res.status(500).json({ message: "An error occured. Please try again in a moment." });
-//     }
-// }
-
 exports.createOrOpenChat = async (req, res) => {
     try {
         const { addressUserId } = req.params;
-        if (addressUserId === req.user.id) {
+        if (addressUserId === req.userId) {
             return res.status(400).json({ message: "Can't open a chat with yourself" });
         }
-        const currentUser = await User.findById(req.user.id).populate("chats");
+        const currentUser = await User.findById(req.userId).populate("chats");
         const existingChat = currentUser.chats.find(chat =>
             !!chat.users.find(userId => userId.toString() === addressUserId)
         );
@@ -131,13 +100,16 @@ exports.sendMessage = async (req, res) => {
         if (!chat) {
             return res.status(404).json({ message: "Chat not found" });
         }
-        if (!chat.users.find(userId => userId.toString() === req.user.id)) {
+        if (!chat.users.find(userId => userId.toString() === req.userId)) {
             return res.status(403).json({ message: "Not authorized to send message in this chat" });
         }
 
         const { message } = req.body;
+        if (!message.trim()) {
+            return res.status(422).json({ message: "Message can't be empty" });
+        }
         const newMessage = {
-            sender: req.user.id,
+            sender: req.userId,
             content: message,
             sentAt: new Date()
         };
@@ -163,7 +135,7 @@ exports.unsendMessage = async (req, res) => {
         if (!message) {
             return res.status(404).json({ message: "Message not found" });
         }
-        if (message.sender.toString() !== req.user.id) {
+        if (message.sender.toString() !== req.userId) {
             return res.status(403).json({ message: "Not authorized to delete this message" });
         }
 
@@ -174,6 +146,6 @@ exports.unsendMessage = async (req, res) => {
         res.status(200).json({ message: "Message deleted" });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Couldn't delete message" });
+        res.status(500).json({ message: "Couldn't delete message. Please try again in a moment." });
     }
 }

@@ -19,8 +19,8 @@ const userSchema = new Schema({
     profession: {
         type: String
     },
-    age: {
-        type: Number
+    status: {
+        type: String,
     },
     bio: {
         type: String,

@@ -2,13 +2,13 @@ const express = require("express");
 
 const router = express.Router();
 
-const auth = require("../middleware/auth");
 const {
     getUserChats,
     createOrOpenChat,
     sendMessage,
     unsendMessage
 } = require("../controllers/chats");
+const auth = require("../middleware/auth");
 
 router.get("/", auth, getUserChats);
 router.get("/:addressUserId", auth, createOrOpenChat);

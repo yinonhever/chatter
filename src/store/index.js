@@ -15,6 +15,10 @@ export default createStore({
         logout(state) {
             state.token = null;
             state.user = null;
+        },
+        updateUser(state, payload) {
+            state.user.name = payload.name;
+            state.user.email = payload.email;
         }
     },
     actions: {
@@ -45,6 +49,10 @@ export default createStore({
             localStorage.removeItem("token");
             localStorage.removeItem("user");
             router.replace("/login");
+        },
+        updateUser(context, payload) {
+            const { name, email } = payload;
+            context.commit("updateUser", { name, email });
         }
     },
     getters: {

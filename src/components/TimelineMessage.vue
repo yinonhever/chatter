@@ -1,24 +1,9 @@
 <template>
   <div :class="classes">
-    <div class="message__content">
-      <p v-if="message.story_share" class="message__share">
-        {{ message.story_share }}
-      </p>
-      <a
-        v-if="message.link && message.text"
-        :href="message.link"
-        class="message__link"
-      >
-        {{ message.text }}
-      </a>
-      <p v-else-if="message.text" class="message__text">
-        {{ message.text }}
-      </p>
-      <p v-else-if="!message.story_share" class="message__not-found">
-        - Media unavailable -
-      </p>
-    </div>
-    <p class="message__time">{{ time }}</p>
+    <p class="message__content">
+      {{ message.content }}
+    </p>
+    <span class="message__time">{{ time }}</span>
   </div>
 </template>
 
@@ -30,24 +15,15 @@ export default {
     message: Object,
   },
   computed: {
-    senderName() {
-      if (
-        this.message.sender === "acc.on.break" ||
-        this.message.sender.includes("deleted")
-      )
-        return "Venni";
-      else if (this.message.sender === "yh1can") return "Yinon";
-      else return null;
-    },
     time() {
-      return moment(this.message.created_at).format("LT");
+      return moment(this.message.sentAt).format("LT");
     },
     classes() {
       let classes = "message";
-      if (this.senderName === "Yinon") {
-        classes += " message--yinon";
-      } else if (this.senderName === "Venni") {
-        classes += " message--venni";
+      if (this.message.sender._id === this.$store.getters.user._id) {
+        classes += " message--user";
+      } else {
+        classes += " message--corrsepondent";
       }
       return classes;
     },
@@ -65,11 +41,11 @@ export default {
     margin: 0;
   }
 
-  &--yinon {
+  &--user {
     flex-direction: row-reverse;
   }
 
-  &--venni {
+  &--correspondent {
     flex-direction: row;
   }
 
@@ -85,13 +61,13 @@ export default {
     }
   }
 
-  &--yinon &__content {
+  &--user &__content {
     background-color: #93cff7;
     color: #000;
     margin-left: 1rem;
   }
 
-  &--venni &__content {
+  &--correspondent &__content {
     background-color: #1520a6;
     margin-right: 1rem;
   }
@@ -100,40 +76,13 @@ export default {
     margin-top: 0.3rem;
   }
 
-  &--yinon + &--venni,
-  &--venni + &--yinon {
+  &--user + &--correspondent,
+  &--correspondent + &--user {
     margin-top: 1.3rem;
-  }
-
-  &__link {
-    transition: color 0.4s;
-
-    &,
-    &:hover {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    &:hover {
-      color: #ccc;
-    }
-  }
-
-  &--yinon &__link:hover {
-    color: #fff;
   }
 
   &__time {
     color: #000;
-    font-size: 1rem;
-  }
-
-  &__share {
-    font-size: 1rem;
-    margin-bottom: 0.6rem;
-  }
-
-  &__not-found {
     font-size: 1rem;
   }
 }

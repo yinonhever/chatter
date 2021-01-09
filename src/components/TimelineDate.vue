@@ -6,7 +6,7 @@
     <div class="date-section__messages">
       <TimelineMessage
         v-for="message in messages"
-        :key="message.created_at"
+        :key="message._id"
         :message="message"
       />
     </div>
