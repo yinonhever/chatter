@@ -40,7 +40,7 @@ export default {
     setPlaceholder() {
       this.placeholder =
         window.innerWidth > 500
-          ? "Search by name, email, profession, bio..."
+          ? "Search by name, location, profession, bio..."
           : "Search users...";
     },
   },
@@ -61,7 +61,7 @@ export default {
   padding: 0 3rem;
   display: flex;
   align-items: center;
-  transition: all 0.3s;
+  transition: all 0.2s;
 
   &--focused {
     max-width: 60rem;
@@ -74,6 +74,7 @@ export default {
     border: none;
     outline: none;
     flex: 1;
+    width: 100%;
     margin-right: 1rem;
   }
 

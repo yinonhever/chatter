@@ -2,6 +2,8 @@ import { createStore } from "vuex";
 import axios from "axios";
 import router from "../router";
 
+let logoutTimer;
+
 export default createStore({
     state: {
         token: null,
@@ -32,27 +34,43 @@ export default createStore({
             }
 
             const response = await axios.post(url, data);
-            const { token, user } = response.data;
+            const { token, expiresIn, user } = response.data;
+            const expirationDate = new Date(Date.now() + expiresIn);
             context.commit("login", { token, user });
 
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("expirationDate", expirationDate);
+
+            logoutTimer = setTimeout(() => context.dispatch("logout"), expiresIn);
         },
         tryAutoLogin(context) {
-            const { token } = localStorage;
+            const { token, expirationDate } = localStorage;
             const user = JSON.parse(localStorage.getItem("user"));
             if (!token || !user) return;
+            const timeLeft = new Date(expirationDate).getTime() - Date.now();
+            if (timeLeft <= 0) {
+                context.dispatch("logout");
+                return;
+            }
             context.commit("login", { token, user });
+            logoutTimer = setTimeout(() => context.dispatch("logout"), timeLeft);
         },
         logout(context) {
             context.commit("logout");
             localStorage.removeItem("token");
             localStorage.removeItem("user");
-            router.replace("/login");
+            localStorage.removeItem("expirationDate");
+            clearTimeout(logoutTimer);
+            router.push("/login");
         },
         updateUser(context, payload) {
             const { name, email } = payload;
             context.commit("updateUser", { name, email });
+            const user = JSON.parse(localStorage.getItem("user"));
+            user.name = name;
+            user.email = email;
+            localStorage.setItem("user", JSON.stringify(user));
         }
     },
     getters: {

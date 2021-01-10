@@ -30,6 +30,7 @@ exports.signup = async (req, res) => {
 
         res.status(201).json({
             token,
+            expiresIn: 86400000,
             user: { _id: createdUser._id, name, email, avatar }
         });
     } catch (err) {
@@ -59,6 +60,7 @@ exports.login = async (req, res) => {
 
         res.status(200).json({
             token,
+            expiresIn: 86400000,
             user: { _id, email, name, avatar }
         });
     } catch (err) {
@@ -69,8 +71,8 @@ exports.login = async (req, res) => {
 
 exports.getUsers = async (req, res) => {
     try {
-        let users = await User.find().select("-password -chats");
-        users = users.filter(user => user._id.toString() !== req.userId);
+        const users = await User.find().select("-password -chats");
+        users.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         res.status(200).json(users);
     } catch (err) {
         console.log(err);
@@ -111,6 +113,22 @@ exports.updateUserDetails = async (req, res) => {
         }
         await user.save();
         res.status(200).json({ message: "Successfully updated profile", user });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "An error occured. Please try again in a moment." });
+    }
+}
+
+exports.insertUsers = async (req, res) => {
+    try {
+        const createdUsers = [];
+        req.body.forEach(async item => {
+            const user = new User({ ...item });
+            user.password = await bcrypt.hash(item.password, 12);
+            const createdUser = await user.save();
+            createdUsers.push(createdUser);
+        })
+        res.status(201).json(createdUsers);
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: "An error occured. Please try again in a moment." });

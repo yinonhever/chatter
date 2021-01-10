@@ -1,5 +1,6 @@
 const Chat = require("../models/chat");
 const User = require("../models/user");
+const { validationResult } = require("express-validator");
 const io = require("../socket");
 
 exports.getUserChats = async (req, res) => {
@@ -95,6 +96,11 @@ exports.createOrOpenChat = async (req, res) => {
 
 exports.sendMessage = async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ message: errors.array()[0].msg });
+        }
+
         const { chatId } = req.params;
         const chat = await Chat.findById(chatId);
         if (!chat) {
@@ -105,9 +111,6 @@ exports.sendMessage = async (req, res) => {
         }
 
         const { message } = req.body;
-        if (!message.trim()) {
-            return res.status(422).json({ message: "Message can't be empty" });
-        }
         const newMessage = {
             sender: req.userId,
             content: message,

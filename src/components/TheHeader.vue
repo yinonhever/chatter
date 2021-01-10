@@ -4,21 +4,26 @@
       <h1 class="header__logo">Chatter</h1>
     </RouterLink>
     <nav class="header__navigation">
-      <NavLink v-if="!isAuth" to="/login">Login</NavLink>
-      <NavLink v-if="!isAuth" to="/signup">Signup</NavLink>
+      <NavItem v-if="!isAuth" link="/login">Login</NavItem>
+      <NavItem v-if="!isAuth" link="/signup">Signup</NavItem>
       <GreetingBox v-if="isAuth" />
-      <NavLink v-if="isAuth" to="/chats">My Chats</NavLink>
-      <span v-if="isAuth" class="header__nav-link" @click="logout">Logout</span>
+      <NavItem v-if="isAuth" link="/chats">My Chats</NavItem>
+      <NavItem v-if="isAuth" @click="logout">Logout</NavItem>
     </nav>
   </header>
 </template>
 
 <script>
-import NavLink from "./NavLink";
+import NavItem from "./NavItem";
 import GreetingBox from "./GreetingBox";
 
 export default {
-  components: { NavLink, GreetingBox },
+  components: { NavItem, GreetingBox },
+  data() {
+    return {
+      navOpen: false,
+    };
+  },
   computed: {
     isAuth() {
       return this.$store.getters.isAuth;

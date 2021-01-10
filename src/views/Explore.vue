@@ -6,7 +6,7 @@
       <SearchBox @search="filterUsers" />
       <div class="explore__grid">
         <ExploreCard
-          v-for="user in filteredUsers.slice(0, 6)"
+          v-for="user in filteredUsers"
           :key="user._id"
           :user="user"
         />
@@ -36,15 +36,18 @@ export default {
         const response = await axios.get("http://localhost:5000/api/users", {
           headers: { Authorization: this.$store.getters.token },
         });
-        this.users = response.data;
-        this.filteredUsers = response.data;
+        const users = response.data.filter(
+          (user) => user._id !== this.$store.getters.user._id
+        );
+        this.users = users;
+        this.filteredUsers = users;
       } catch (error) {
         this.error = error;
       }
       this.loading = false;
     },
     filterUsers(query) {
-      const keys = ["name", "profession", "email", "bio"];
+      const keys = ["name", "profession", "location", "bio"];
       this.filteredUsers = this.users.filter((user) => {
         for (let key of keys) {
           if (

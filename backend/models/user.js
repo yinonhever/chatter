@@ -14,13 +14,20 @@ const userSchema = new Schema({
         required: true
     },
     avatar: {
-        type: String
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
     },
     profession: {
         type: String
     },
-    status: {
-        type: String,
+    birthday: {
+        type: Date
+    },
+    location: {
+        type: String
     },
     bio: {
         type: String,
@@ -31,6 +38,6 @@ const userSchema = new Schema({
             ref: "Chat"
         }
     ]
-});
+}, { timestamps: true });
 
 module.exports = model("User", userSchema);

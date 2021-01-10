@@ -7,15 +7,17 @@ const {
     login,
     getUsers,
     getUserDetails,
-    updateUserDetails
+    updateUserDetails,
+    insertUsers
 } = require("../controllers/users");
 const auth = require("../middleware/auth");
 const validation = require("../middleware/validation");
 
-router.get("/", auth, getUsers);
-router.post("/", validation({ password: true }), signup);
+router.get("/", getUsers);
+router.post("/", validation("name email password"), signup);
 router.post("/login", login);
 router.get("/:userId", getUserDetails);
-router.put("/:userId", auth, validation(), updateUserDetails);
+router.put("/:userId", auth, validation("name email birthday"), updateUserDetails);
+router.post("/insert", insertUsers)
 
 module.exports = router;

@@ -3,8 +3,8 @@
     <div class="card__top">
       <img class="card__img" :src="user.avatar" :alt="user.name" />
       <h3 class="card__name">{{ user.name }}</h3>
-      <p v-if="user.profession" class="card__profession">
-        {{ user.profession }}
+      <p v-if="user.location" class="card__location">
+        {{ user.location }}
       </p>
     </div>
     <div class="card__bottom">
@@ -45,17 +45,17 @@ export default {
   &__img {
     width: 16.66rem;
     border-radius: 50%;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.7rem;
   }
 
   &__name {
     font-size: 2.4rem;
     font-weight: 700;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.6rem;
   }
 
-  &__profession {
-    font-size: 1.6rem;
+  &__location {
+    font-size: 1.5rem;
   }
 
   .button {

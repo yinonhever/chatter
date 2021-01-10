@@ -9,11 +9,31 @@
 
 <script>
 import TheHeader from "./components/TheHeader";
+import axios from "axios";
 
 export default {
   components: { TheHeader },
+  methods: {
+    async loadUsers() {
+      const { data } = await axios.get("https://randomuser.me/api/");
+      const fetchedUser = data.results[0];
+      const createdUser = {
+        name: fetchedUser.name.first + " " + fetchedUser.name.last,
+        email: fetchedUser.email,
+        password: fetchedUser.login.password,
+        location:
+          fetchedUser.location.city + ", " + fetchedUser.location.country,
+        birthday: new Date(fetchedUser.dob.date),
+        phone: fetchedUser.cell,
+        avatar: fetchedUser.picture.large,
+      };
+      await axios.post("http://localhost:5000/api/users/insert", [createdUser]);
+      console.log(createdUser);
+    },
+  },
   created() {
     this.$store.dispatch("tryAutoLogin");
+    // this.loadUsers();
   },
 };
 </script>
@@ -69,7 +89,6 @@ a {
   &:hover {
     text-decoration: none;
     color: inherit;
-    display: block;
   }
 }
 

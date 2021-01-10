@@ -36,6 +36,10 @@ export default {
   margin-top: 3rem;
 }
 
+.profile-form + .error {
+  margin-top: 4rem;
+}
+
 .page-heading + .error {
   margin-top: 8rem;
 }

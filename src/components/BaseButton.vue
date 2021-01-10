@@ -17,6 +17,7 @@ export default {
 
 <style lang="scss">
 .button {
+  display: block;
   padding: 1rem;
   background-color: #007bff;
   color: #fff;

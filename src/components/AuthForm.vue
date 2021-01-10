@@ -62,7 +62,7 @@ export default {
       return this.mode === "signup" ? "Register" : "Login";
     },
     redirect() {
-      return this.mode === "signup" ? "/edit-profile" : "/chats";
+      return this.mode === "signup" ? "/edit-profile?new=true" : "/explore";
     },
   },
   methods: {

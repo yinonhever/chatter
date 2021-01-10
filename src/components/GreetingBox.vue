@@ -1,15 +1,15 @@
 <template>
-  <NavLink to="/profile" class="greeting-box">
+  <NavItem link="/profile" class="greeting-box">
     <img class="greeting-box__img" :src="user.avatar" :alt="user.name" />
     <span class="greeting-box__text">Hello, {{ name }}</span>
-  </NavLink>
+  </NavItem>
 </template>
 
 <script>
-import NavLink from "./NavLink";
+import NavItem from "./NavItem";
 
 export default {
-  components: { NavLink },
+  components: { NavItem },
   computed: {
     user() {
       return this.$store.getters.user;
