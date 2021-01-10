@@ -33,9 +33,7 @@ export default {
   methods: {
     async loadUsers() {
       try {
-        const response = await axios.get("http://localhost:5000/api/users", {
-          headers: { Authorization: this.$store.getters.token },
-        });
+        const response = await axios.get("http://localhost:5000/api/users");
         const users = response.data.filter(
           (user) => user._id !== this.$store.getters.user._id
         );

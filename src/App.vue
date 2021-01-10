@@ -79,8 +79,7 @@ body {
 }
 
 h2,
-h3,
-h4 {
+h3 {
   font-family: "Montserrat Alternates", sans-serif;
 }
 

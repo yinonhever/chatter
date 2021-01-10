@@ -92,7 +92,7 @@ export default {
 .form {
   display: flex;
   flex-direction: column;
-  max-width: 500px;
+  max-width: 42rem;
   margin: auto;
   background-color: #fff;
   padding: 3rem 2rem;

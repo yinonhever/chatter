@@ -120,7 +120,6 @@ export default {
     },
     async submitHandler() {
       this.submitting = true;
-      console.log(this.formData.birthday);
       try {
         await axios.put(
           `http://localhost:5000/api/users/${this.$store.getters.user._id}`,
@@ -190,6 +189,7 @@ export default {
 
   .button {
     font-size: 1.35rem;
+    margin-top: 1.5rem;
   }
 }
 

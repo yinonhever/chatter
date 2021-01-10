@@ -17,11 +17,14 @@ export default {
 
 <style lang="scss">
 .link {
-  font-weight: 500;
   transition: color 0.4s;
 
   &:hover {
     color: #007bff;
   }
+}
+
+p .link {
+  font-weight: 500;
 }
 </style>
