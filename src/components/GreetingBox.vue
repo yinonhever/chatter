@@ -30,8 +30,7 @@ export default {
   align-items: center;
   transition: all 0.5s;
 
-  &:hover,
-  &.active {
+  &:hover {
     background-color: #007bff;
   }
 

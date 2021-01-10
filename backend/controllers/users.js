@@ -111,6 +111,9 @@ exports.updateUserDetails = async (req, res) => {
         for (let key in req.body) {
             user[key] = req.body[key];
         }
+        if (req.body.email) {
+            user.avatar = gravatar.url(req.body.email, { s: "500", r: "pg", d: "mm" });
+        }
         await user.save();
         res.status(200).json({ message: "Successfully updated profile", user });
     } catch (err) {

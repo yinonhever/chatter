@@ -2,7 +2,7 @@
   <Page title="Edit Profile">
     <Spinner v-if="loading" />
     <ErrorMessage v-else-if="errorLoading" :error="errorLoading" />
-    <form v-else class="profile-form" @submit.prevent="submitHandler">
+    <form v-else class="profile-form zoom-in" @submit.prevent="submitHandler">
       <div class="profile-form__field">
         <label for="name" class="profile-form__label">Name</label>
         <input
@@ -121,12 +121,13 @@ export default {
     async submitHandler() {
       this.submitting = true;
       try {
-        await axios.put(
+        const response = await axios.put(
           `http://localhost:5000/api/users/${this.$store.getters.user._id}`,
           this.formData,
           { headers: { Authorization: this.$store.getters.token } }
         );
-        this.$store.dispatch("updateUser", this.formData);
+        const { name, email, avatar } = response.data.user;
+        this.$store.dispatch("updateUser", { name, email, avatar });
         this.$router.push(this.redirect);
       } catch (error) {
         this.errorSubmitting = error;

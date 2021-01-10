@@ -34,6 +34,7 @@ export default {
   created() {
     this.$store.dispatch("tryAutoLogin");
     // this.loadUsers();
+    console.log(this.$route.path);
   },
 };
 </script>
@@ -99,9 +100,13 @@ a {
   animation: fadeFromRight 0.5s ease-out;
 }
 
+.zoom-in {
+  animation: zoomIn 0.6s;
+}
+
 @keyframes fadeFromLeft {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-100vw);
     opacity: 0;
   }
   100% {
@@ -112,11 +117,23 @@ a {
 
 @keyframes fadeFromRight {
   0% {
-    transform: translateX(100%);
+    transform: translateX(100vw);
     opacity: 0;
   }
   100% {
     transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
     opacity: 1;
   }
 }

@@ -2,7 +2,7 @@
   <Page :title="title">
     <Spinner v-if="loading" />
     <ErrorMessage v-else-if="error" :error="error" />
-    <section v-else-if="user" class="profile">
+    <section v-else-if="user" class="profile zoom-in">
       <img class="profile__avatar" :src="user.avatar" :alt="user.name" />
       <h3 class="profile__name">{{ user.name }}</h3>
       <div class="profile__seperator" />

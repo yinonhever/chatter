@@ -16,6 +16,16 @@ export default {
   },
   created() {
     document.title = this.title ? `${this.title} – Chatter` : "Chatter";
+    if (
+      this.$route.path === "/explore" ||
+      this.$route.path === "/edit-profile" ||
+      this.$route.path.startsWith("/profile") ||
+      this.$route.path.startsWith("/chats")
+    ) {
+      document.querySelector("body").style.overflowY = "scroll";
+    } else {
+      document.querySelector("body").removeAttribute("style");
+    }
   },
 };
 </script>

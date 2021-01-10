@@ -19,8 +19,9 @@ export default createStore({
             state.user = null;
         },
         updateUser(state, payload) {
-            state.user.name = payload.name;
-            state.user.email = payload.email;
+            for (let key in payload) {
+                state.user[key] = payload[key];
+            }
         }
     },
     actions: {
@@ -65,11 +66,11 @@ export default createStore({
             router.push("/login");
         },
         updateUser(context, payload) {
-            const { name, email } = payload;
-            context.commit("updateUser", { name, email });
+            context.commit("updateUser", payload);
             const user = JSON.parse(localStorage.getItem("user"));
-            user.name = name;
-            user.email = email;
+            for (let key in payload) {
+                user[key] = payload[key];
+            }
             localStorage.setItem("user", JSON.stringify(user));
         }
     },
