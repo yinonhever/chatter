@@ -6,12 +6,12 @@
 </template>
 
 <style lang="scss">
-.edit-button {
+.edit-button.edit-button {
   background-color: #1520a6;
   display: flex;
   align-items: center;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 1.8rem;
+  padding-right: 1.8rem;
 
   &:hover {
     background-color: #fff;
