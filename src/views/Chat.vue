@@ -126,8 +126,9 @@ export default {
       });
     },
     async sendMessage() {
+      if (!this.input) return;
+      this.sending = true;
       try {
-        this.sending = true;
         await axios.post(
           `http://localhost:5000/api/chats/${this.chat._id}`,
           { message: this.input },
@@ -237,9 +238,14 @@ export default {
     flex: 1;
     border-radius: 100px;
     margin-right: 1.5rem;
-    border: none;
+    border: 2px solid transparent;
     outline: none;
     padding: 1rem 2rem;
+    transition: all 0.5s;
+
+    &:focus {
+      border-color: #007bff;
+    }
   }
 
   .button {
@@ -255,7 +261,7 @@ export default {
     i {
       transition: color 0.4s;
       color: #007bff;
-      font-size: 2rem;
+      font-size: 2.5rem;
 
       &:hover {
         color: #1520a6;
