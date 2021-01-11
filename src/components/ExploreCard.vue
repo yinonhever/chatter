@@ -32,7 +32,6 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  word-wrap: break-word;
 
   * {
     margin: 0;

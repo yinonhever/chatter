@@ -102,12 +102,10 @@ export default {
   box-shadow: rgba(62, 57, 107, 0.36) 0px 16px 38px -12px,
     rgba(62, 57, 107, 0.12) 0px 4px 25px 0px,
     rgba(62, 57, 107, 0.2) 0px 8px 10px -5px;
-  position: relative;
-  overflow: auto;
+  text-align: center;
 
   @media only screen and (max-width: 500px) {
     padding: 3rem 2rem;
-    text-align: center;
   }
 
   * {
@@ -123,7 +121,7 @@ export default {
 
   &__name {
     font-size: 2.7rem;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   &__seperator {
@@ -136,36 +134,22 @@ export default {
   &__field {
     width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    flex-direction: column;
 
     &:not(:last-child) {
       margin-bottom: 1.6rem;
-    }
-
-    @media only screen and (max-width: 600px) {
-      flex-direction: column;
     }
   }
 
   &__field-title {
     font-size: 1.5rem;
     font-weight: 600;
-    margin-right: 1.5rem;
-
-    @media only screen and (max-width: 600px) {
-      margin-right: 0;
-      margin-bottom: 0.5rem;
-    }
+    margin-bottom: 0.5rem;
   }
 
   &__field-content {
     font-size: 1.45rem;
-    text-align: right;
-
-    @media only screen and (max-width: 600px) {
-      text-align: center;
-    }
   }
 
   &__bio {
@@ -175,14 +159,6 @@ export default {
   &__bio &__field-title {
     margin-right: 0;
     margin-bottom: 0.5rem;
-  }
-
-  &__bio &__field-content {
-    text-align: left;
-
-    @media only screen and (max-width: 600px) {
-      text-align: center;
-    }
   }
 
   .button {

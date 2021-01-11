@@ -80,12 +80,16 @@ export default {
   &__input {
     font: inherit;
     font-size: 1.45rem;
-    padding: 2rem 0;
+    padding: 1.75rem 0;
     border: none;
     outline: none;
     flex: 1;
     width: 100%;
     margin-right: 1rem;
+
+    @media only screen and (max-width: 500px) {
+      padding: 1.5rem 0;
+    }
   }
 
   &__icon {
