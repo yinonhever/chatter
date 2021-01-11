@@ -1,14 +1,30 @@
 <template>
   <Page title="My Chats" :showHeading="false">
     <Spinner v-if="loading" />
-    <ErrorMessage v-else-if="error" :error="error" />
-    <div v-else class="timeline">
-      <TimelineDate
-        v-for="dateItem in dates"
-        :key="dateItem.date"
-        v-bind="dateItem"
-      />
+    <ErrorMessage v-else-if="errorLoading" :error="errorLoading" />
+    <div v-else class="chat">
+      <div class="chat__top"></div>
+      <div class="chat__main">
+        <div class="timeline">
+          <TimelineDate
+            v-for="dateItem in dates"
+            :key="dateItem.date"
+            v-bind="dateItem"
+          />
+        </div>
+      </div>
+      <div class="chat__bottom">
+        <form class="chat__form" @submit.prevent="sendMessage">
+          <input
+            v-model.trim="input"
+            class="chat__input"
+            placeholder="Type a message..."
+            aria-label="Type a message"
+          />
+        </form>
+      </div>
     </div>
+    <Spinner v-if="sending" />
   </Page>
 </template>
 
@@ -28,27 +44,19 @@ export default {
       chat: { messages: [] },
       input: "",
       loading: true,
+      errorLoading: null,
       sending: false,
-      error: null,
+      errorSending: null,
     };
   },
-  methods: {
-    async loadChat() {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/api/chats/${this.addressUserId}`,
-          { headers: { Authorization: this.$store.getters.token } }
-        );
-        this.chat = response.data.chat;
-      } catch (error) {
-        this.error = error;
-      }
-      this.loading = false;
+  computed: {
+    messages() {
+      const messages = [...this.chat.messages];
+      return messages.reverse();
     },
-    async sendMessage() {},
     dates() {
       const dates = [];
-      this.chat.messages.forEach((message) => {
+      this.messages.forEach((message) => {
         const existingDateIndex = dates.findIndex(
           (item) =>
             moment(item.date).format("LL") ===
@@ -66,10 +74,59 @@ export default {
       return dates;
     },
   },
+  methods: {
+    async loadChat() {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/chats/${this.addressUserId}`,
+          { headers: { Authorization: this.$store.getters.token } }
+        );
+        this.chat = response.data.chat;
+      } catch (error) {
+        this.errorLoading = error;
+      }
+      this.loading = false;
+    },
+    initSocket() {
+      const io = socket("http://localhost:5000");
+      io.on("addMessage", ({ message }) => {
+        this.chat.messages.unshift(message);
+        if (message.sender._id !== this.$store.getters.user._id) {
+          const sound = new Audio("/audio/message-received.mp3");
+          sound.play();
+        }
+      });
+    },
+    async sendMessage() {
+      try {
+        this.sending = true;
+        await axios.post(
+          `http://localhost:5000/api/chats/${this.chat._id}`,
+          { message: this.input },
+          { headers: { Authorization: this.$store.getters.token } }
+        );
+        this.input = "";
+      } catch (error) {
+        this.errorSending = error;
+      }
+      this.sending = false;
+    },
+  },
   created() {
     this.loadChat();
-    const io = socket("http://localhost:5000");
-    console.log(io);
+    this.initSocket();
   },
 };
 </script>
+
+<style lang="scss">
+.chat {
+  width: 100%;
+  max-width: 66.66rem;
+  margin: auto;
+
+  &__main {
+    padding: 3rem;
+  }
+}
+</style>

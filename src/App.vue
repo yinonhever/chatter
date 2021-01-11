@@ -34,7 +34,6 @@ export default {
   created() {
     this.$store.dispatch("tryAutoLogin");
     // this.loadUsers();
-    console.log(this.$route.path);
   },
 };
 </script>
@@ -94,7 +93,7 @@ a {
 }
 
 .zoom-in {
-  animation: zoomIn 0.6s;
+  animation: zoomIn 0.5s;
 }
 
 @keyframes zoomIn {

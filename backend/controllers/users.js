@@ -10,6 +10,7 @@ exports.signup = async (req, res) => {
         if (!errors.isEmpty()) {
             return res.status(422).json({ message: errors.array()[0].msg });
         }
+
         const { name, email, password } = req.body;
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -17,9 +18,8 @@ exports.signup = async (req, res) => {
         }
 
         const avatar = gravatar.url(email, { s: "500", r: "pg", d: "mm" });
-        const hashedPassword = await bcrypt.hash(password, 12);
-
-        const user = new User({ name, email, avatar, password: hashedPassword });
+        const user = new User({ name, email, avatar });
+        user.password = await bcrypt.hash(password, 12);
         const createdUser = await user.save();
 
         const token = jwt.sign(
@@ -111,9 +111,7 @@ exports.updateUserDetails = async (req, res) => {
         for (let key in req.body) {
             user[key] = req.body[key];
         }
-        if (req.body.email) {
-            user.avatar = gravatar.url(req.body.email, { s: "500", r: "pg", d: "mm" });
-        }
+        user.avatar = gravatar.url(req.body.email, { s: "500", r: "pg", d: "mm" });
         await user.save();
         res.status(200).json({ message: "Successfully updated profile", user });
     } catch (err) {

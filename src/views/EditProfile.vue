@@ -20,7 +20,7 @@
         <input
           v-model="formData.email"
           id="email"
-          placeholder="Your email..."
+          placeholder="Your email address..."
           type="email"
           required
           class="profile-form__input"

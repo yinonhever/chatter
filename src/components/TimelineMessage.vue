@@ -23,7 +23,7 @@ export default {
       if (this.message.sender._id === this.$store.getters.user._id) {
         classes += " message--user";
       } else {
-        classes += " message--corrsepondent";
+        classes += " message--correspondent";
       }
       return classes;
     },

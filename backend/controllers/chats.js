@@ -64,7 +64,7 @@ exports.createOrOpenChat = async (req, res) => {
                     }
                 }
             ]).execPopulate();
-            return res.status(200).json({ chat: existingChat });
+            return res.status(200).json({ message: "Fetched existing chat", chat: existingChat });
         }
 
         const addressUser = await User.findById(addressUserId);
@@ -112,13 +112,13 @@ exports.sendMessage = async (req, res) => {
 
         const { message } = req.body;
         const newMessage = {
-            sender: req.userId,
             content: message,
+            sender: { _id: req.userId },
             sentAt: new Date()
         };
         chat.messages.unshift(newMessage);
         await chat.save();
-        io.get().broadcast.emit("addMessage", { message: newMessage });
+        io.get().emit("addMessage", { message: newMessage });
 
         res.status(201).json({ message: "Message sent", messageData: newMessage });
     } catch (err) {
