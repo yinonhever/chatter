@@ -42,7 +42,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 5rem;
+  margin: 0 0 4rem;
 
   &__logo {
     display: inline-block;

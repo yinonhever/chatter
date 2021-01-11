@@ -1,9 +1,9 @@
 <template>
   <div :class="classes">
-    <p class="message__content">
-      {{ message.content }}
-    </p>
-    <span class="message__time">{{ time }}</span>
+    <div class="message__content">
+      <p class="message__text">{{ message.content }}</p>
+      <span class="message__time">{{ time }}</span>
+    </div>
   </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
 .message {
   display: flex;
   align-items: center;
-  color: #fff;
+  font-size: 1.3rem;
 
   * {
     margin: 0;
@@ -49,15 +49,24 @@ export default {
     flex-direction: row;
   }
 
+  &:not(:first-child) {
+    margin-top: 0.3rem;
+  }
+
+  &--user + &--correspondent,
+  &--correspondent + &--user {
+    margin-top: 1.3rem;
+  }
+
   &__content {
     max-width: 80%;
     border-radius: 1rem;
-    padding: 1rem;
+    padding: 0.8rem 1rem 0.6rem;
     position: relative;
     word-wrap: break-word;
 
     @media only screen and (min-width: 900px) {
-      max-width: 50rem;
+      max-width: 70%;
     }
   }
 
@@ -69,21 +78,12 @@ export default {
 
   &--correspondent &__content {
     background-color: #1520a6;
+    color: #fff;
     margin-right: 1rem;
   }
 
-  &:not(:first-child) {
-    margin-top: 0.3rem;
-  }
-
-  &--user + &--correspondent,
-  &--correspondent + &--user {
-    margin-top: 1.3rem;
-  }
-
   &__time {
-    color: #000;
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 }
 </style>

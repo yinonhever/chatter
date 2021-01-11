@@ -4,7 +4,7 @@
       {{ displayedDate }}
     </h3>
     <div class="date-section__messages">
-      <TimelineMessage
+      <ChatMessage
         v-for="message in messages"
         :key="message._id"
         :message="message"
@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import TimelineMessage from "./TimelineMessage";
+import ChatMessage from "./ChatMessage";
 import moment from "moment";
 
 export default {
-  components: { TimelineMessage },
+  components: { ChatMessage },
   props: {
     date: Date,
     messages: Array,
