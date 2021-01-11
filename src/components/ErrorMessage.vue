@@ -1,5 +1,5 @@
 <template>
-  <p class="error fade-from-right">
+  <p class="error zoom-in">
     {{ message }}
   </p>
 </template>
@@ -32,7 +32,7 @@ export default {
   padding: 0 4vw;
 }
 
-.auth + .error {
+.form + .error {
   margin-top: 3rem;
 }
 

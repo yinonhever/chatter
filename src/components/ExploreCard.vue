@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card zoom-in">
     <div class="card__top">
       <img class="card__img" :src="user.avatar" :alt="user.name" />
       <h3 class="card__name">{{ user.name }}</h3>

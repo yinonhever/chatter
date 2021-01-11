@@ -82,6 +82,7 @@ body {
 h2,
 h3 {
   font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 600;
 }
 
 a {
@@ -92,38 +93,8 @@ a {
   }
 }
 
-.fade-from-left {
-  animation: fadeFromLeft 0.5s ease-out;
-}
-
-.fade-from-right {
-  animation: fadeFromRight 0.5s ease-out;
-}
-
 .zoom-in {
   animation: zoomIn 0.6s;
-}
-
-@keyframes fadeFromLeft {
-  0% {
-    transform: translateX(-100vw);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeFromRight {
-  0% {
-    transform: translateX(100vw);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
 }
 
 @keyframes zoomIn {

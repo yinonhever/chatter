@@ -37,6 +37,7 @@
           v-model="formData.birthday"
           id="birthday"
           class="profile-form__input"
+          placeholder="Pick your birthday..."
         />
       </div>
       <div class="profile-form__field">
@@ -85,7 +86,7 @@ export default {
       formData: {
         name: "",
         email: "",
-        birthday: new Date(),
+        birthday: null,
         profession: "",
         location: "",
         bio: "",
@@ -105,8 +106,7 @@ export default {
     async loadDetails() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/users/${this.$store.getters.user._id}`,
-          { headers: { Authorization: this.$store.getters.token } }
+          `http://localhost:5000/api/users/${this.$store.getters.user._id}`
         );
         for (let key in this.formData) {
           if (response.data[key]) {
@@ -126,8 +126,8 @@ export default {
           this.formData,
           { headers: { Authorization: this.$store.getters.token } }
         );
-        const { name, email, avatar } = response.data.user;
-        this.$store.dispatch("updateUser", { name, email, avatar });
+        const { _id, name, email, avatar } = response.data.user;
+        this.$store.dispatch("updateUser", { _id, name, email, avatar });
         this.$router.push(this.redirect);
       } catch (error) {
         this.errorSubmitting = error;

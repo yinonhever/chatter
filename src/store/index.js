@@ -5,9 +5,11 @@ import router from "../router";
 let logoutTimer;
 
 export default createStore({
-    state: {
-        token: null,
-        user: null
+    state() {
+        return {
+            token: null,
+            user: null
+        }
     },
     mutations: {
         login(state, payload) {
@@ -19,9 +21,7 @@ export default createStore({
             state.user = null;
         },
         updateUser(state, payload) {
-            for (let key in payload) {
-                state.user[key] = payload[key];
-            }
+            state.user = payload;
         }
     },
     actions: {
@@ -67,11 +67,7 @@ export default createStore({
         },
         updateUser(context, payload) {
             context.commit("updateUser", payload);
-            const user = JSON.parse(localStorage.getItem("user"));
-            for (let key in payload) {
-                user[key] = payload[key];
-            }
-            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("user", JSON.stringify(payload));
         }
     },
     getters: {

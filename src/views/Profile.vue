@@ -107,6 +107,7 @@ export default {
 
   @media only screen and (max-width: 500px) {
     padding: 3rem 2rem;
+    text-align: center;
   }
 
   * {
@@ -141,18 +142,30 @@ export default {
     &:not(:last-child) {
       margin-bottom: 1.6rem;
     }
+
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+    }
   }
 
   &__field-title {
     font-size: 1.5rem;
     font-weight: 600;
     margin-right: 1.5rem;
+
+    @media only screen and (max-width: 600px) {
+      margin-right: 0;
+      margin-bottom: 0.5rem;
+    }
   }
 
   &__field-content {
     font-size: 1.45rem;
     text-align: right;
-    word-wrap: break-word;
+
+    @media only screen and (max-width: 600px) {
+      text-align: center;
+    }
   }
 
   &__bio {
@@ -166,6 +179,10 @@ export default {
 
   &__bio &__field-content {
     text-align: left;
+
+    @media only screen and (max-width: 600px) {
+      text-align: center;
+    }
   }
 
   .button {

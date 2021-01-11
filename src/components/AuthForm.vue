@@ -1,38 +1,36 @@
 <template>
-  <section class="auth fade-from-left">
-    <form class="form" @submit.prevent="submitHandler">
-      <input
-        v-if="mode === 'signup'"
-        v-model.trim="formData.name"
-        required
-        placeholder="Name"
-        class="form__input"
-      />
-      <input
-        v-model.trim="formData.email"
-        type="email"
-        required
-        placeholder="Email Address"
-        class="form__input"
-      />
-      <input
-        v-model.trim="formData.password"
-        type="password"
-        required
-        placeholder="Password"
-        class="form__input"
-      />
-      <input
-        v-if="mode === 'signup'"
-        v-model.trim="formData.confirmPassword"
-        type="password"
-        required
-        placeholder="Confirm Password"
-        class="form__input"
-      />
-      <BaseButton>{{ buttonText }}</BaseButton>
-    </form>
-  </section>
+  <form class="form zoom-in" @submit.prevent="submitHandler">
+    <input
+      v-if="mode === 'signup'"
+      v-model.trim="formData.name"
+      required
+      placeholder="Name"
+      class="form__input"
+    />
+    <input
+      v-model.trim="formData.email"
+      type="email"
+      required
+      placeholder="Email Address"
+      class="form__input"
+    />
+    <input
+      v-model.trim="formData.password"
+      type="password"
+      required
+      placeholder="Password"
+      class="form__input"
+    />
+    <input
+      v-if="mode === 'signup'"
+      v-model.trim="formData.confirmPassword"
+      type="password"
+      required
+      placeholder="Confirm Password"
+      class="form__input"
+    />
+    <BaseButton>{{ buttonText }}</BaseButton>
+  </form>
   <Spinner v-if="loading" />
   <ErrorMessage v-else-if="error" :error="error" />
 </template>

@@ -23,7 +23,9 @@ module.exports = (keys = "") => {
     }
     if (fields.includes("birthday")) {
         validators.push(
-            body("birthday").isISO8601().toDate(),
+            body("birthday").optional({ nullable: true, checkFalsy: true })
+                .isISO8601().toDate()
+                .withMessage("Date is invalid"),
         );
     }
     if (fields.includes("message")) {

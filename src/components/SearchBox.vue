@@ -29,6 +29,7 @@ export default {
       if (this.focused) {
         classes += " search--focused";
       }
+      classes += " zoom-in";
       return classes;
     },
   },
@@ -63,8 +64,17 @@ export default {
   align-items: center;
   transition: all 0.2s;
 
+  @media only screen and (max-width: 500px) {
+    max-width: 62%;
+    min-width: 19.5rem;
+  }
+
   &--focused {
-    max-width: 60rem;
+    max-width: 62rem;
+
+    @media only screen and (max-width: 500px) {
+      max-width: 100%;
+    }
   }
 
   &__input {
