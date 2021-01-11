@@ -1,8 +1,8 @@
 <template>
-  <Page title="My Chats" :showHeading="false">
+  <Page title="Chat" :showHeading="false">
     <Spinner v-if="loading" />
     <ErrorMessage v-else-if="errorLoading" :error="errorLoading" />
-    <div v-else class="chat">
+    <div v-else class="chat zoom-in">
       <div class="chat__top"></div>
       <div class="chat__main">
         <div class="timeline">
@@ -82,10 +82,18 @@ export default {
           { headers: { Authorization: this.$store.getters.token } }
         );
         this.chat = response.data.chat;
+        this.markAsRead();
       } catch (error) {
         this.errorLoading = error;
       }
       this.loading = false;
+    },
+    markAsRead() {
+      axios.put(
+        `http://localhost:5000/api/chats/${this.chat._id}/read`,
+        {},
+        { headers: { Authorization: this.$store.getters.token } }
+      );
     },
     initSocket() {
       const io = socket("http://localhost:5000");

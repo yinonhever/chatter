@@ -152,3 +152,25 @@ exports.unsendMessage = async (req, res) => {
         res.status(500).json({ message: "Couldn't delete message. Please try again in a moment." });
     }
 }
+
+exports.markAsRead = async (req, res) => {
+    try {
+        const { chatId } = req.params;
+        const chat = await Chat.findById(chatId);
+        if (!chat) {
+            return res.status(404).json({ message: "Chat not found" });
+        }
+        if (!chat.users.find(userId => userId.toString() === req.userId)) {
+            return res.status(403).json({ message: "Not authorized to modify this chat" });
+        }
+        chat.messages.forEach((message, index) => {
+            if (message.sender._id.toString() !== req.userId) {
+                chat.messages[index].read = true;
+            }
+        });
+        await chat.save();
+        return res.status(200).json({ message: "Marked messages as read", chat });
+    } catch (error) {
+        res.status(500).json({ message: "Couldn't delete message. Please try again in a moment." });
+    }
+}

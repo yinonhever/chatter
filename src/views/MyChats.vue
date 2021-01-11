@@ -3,7 +3,14 @@
     <Spinner v-if="loading" />
     <ErrorMessage v-else-if="error" :error="error" />
     <div v-else>
-      <p v-for="chat in chats" :key="chat._id">{{ chat.correspondent.name }}</p>
+      <RouterLink
+        v-for="{ correspondent } in chats"
+        :key="correspondent._id"
+        :to="`/chats/${correspondent._id}`"
+        style="display: block; margin-bottom: 2rem;"
+      >
+        {{ correspondent.name }}
+      </RouterLink>
     </div>
   </Page>
 </template>
