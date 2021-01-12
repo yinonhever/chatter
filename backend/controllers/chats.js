@@ -68,7 +68,14 @@ exports.createOrOpenChat = async (req, res) => {
                     }
                 }
             ]).execPopulate();
-            return res.status(200).json({ message: "Fetched existing chat", chat: existingChat });
+            const unreadMessages = existingChat.messages.filter(message =>
+                message.sender._id.toString() !== req.userId && !message.read
+            ).length;
+            return res.status(200).json({
+                message: "Fetched existing chat",
+                chat: existingChat,
+                unreadMessages
+            });
         }
 
         const addressUser = await User.findById(addressUserId);
@@ -174,8 +181,8 @@ exports.markAsRead = async (req, res) => {
             }
         });
         await chat.save();
-        return res.status(200).json({ message: "Marked messages as read", chat });
+        res.status(200).json({ message: "Marked messages as read", chat });
     } catch (error) {
-        res.status(500).json({ message: "Couldn't delete message. Please try again in a moment." });
+        res.status(500).json({ message: "An error occured. Please try again in a moment." });
     }
 }

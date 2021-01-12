@@ -2,13 +2,15 @@
   <div :class="classes">
     <div class="message__content">
       <p class="message__text">{{ message.content }}</p>
-      <span class="message__time">{{ time }}</span>
+      <div class="message__bottom">
+        <span class="message__time">{{ time }}</span>
+        <i
+          v-if="isCurrentUser"
+          class="message__delete fas fa-times"
+          @click="$emit('delete', message._id)"
+        />
+      </div>
     </div>
-    <i
-      v-if="isCurrentUser"
-      class="message__delete far fa-trash-alt"
-      @click="$emit('delete', message._id)"
-    />
   </div>
 </template>
 
@@ -19,6 +21,11 @@ export default {
   emits: ["delete"],
   props: {
     message: Object,
+  },
+  data() {
+    return {
+      showDropdown: false,
+    };
   },
   computed: {
     isCurrentUser() {
@@ -35,6 +42,11 @@ export default {
         classes += " message--correspondent";
       }
       return classes;
+    },
+  },
+  watch: {
+    showDropdown(value) {
+      console.log(value);
     },
   },
 };
@@ -59,7 +71,7 @@ export default {
   }
 
   &:not(:first-child) {
-    margin-top: 0.3rem;
+    margin-top: 0.2rem;
   }
 
   &--user + &--correspondent,
@@ -89,20 +101,42 @@ export default {
     color: #fff;
   }
 
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.6rem;
+
+    @media only screen and (max-width: 500px) {
+      margin-top: 1rem;
+    }
+  }
+
   &__time {
     font-size: 0.8rem;
   }
 
   &__delete {
-    font-size: 1.2rem;
-    color: #007bff;
-    margin-right: 1rem;
-    transition: color 0.4s;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.4s;
     cursor: pointer;
+
+    @media only screen and (max-width: 500px) {
+      visibility: visible;
+      opacity: 1;
+    }
 
     &:hover {
       color: #1520a6;
     }
+  }
+
+  &__content:hover &__delete {
+    visibility: visible;
+    opacity: 1;
   }
 }
 </style>

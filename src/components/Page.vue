@@ -20,7 +20,7 @@ export default {
       this.$route.path === "/explore" ||
       this.$route.path === "/edit-profile" ||
       this.$route.path.startsWith("/profile") ||
-      this.$route.path.startsWith("/chats")
+      (this.$route.path.startsWith("/chats/") && this.$route.path !== "/chats/")
     ) {
       document.querySelector("body").style.overflowY = "scroll";
     } else {

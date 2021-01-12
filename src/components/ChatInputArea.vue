@@ -59,8 +59,8 @@ export default {
   }
 
   &__submit {
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 4.3rem;
+    height: 4.3rem;
     position: relative;
     display: flex;
     justify-content: center;

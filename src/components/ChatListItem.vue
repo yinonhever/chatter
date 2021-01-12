@@ -104,7 +104,6 @@ export default {
   &__username {
     font-weight: 500;
     font-size: 1.5rem;
-    margin-bottom: 0.1rem;
   }
 
   &__time {
@@ -114,6 +113,7 @@ export default {
 
   &__message {
     font-size: 1.2rem;
+    margin-top: 0.1rem;
   }
 
   &:not(:last-child) &__content::after {

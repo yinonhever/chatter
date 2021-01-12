@@ -97,6 +97,7 @@ export default {
           { headers: { Authorization: this.$store.getters.token } }
         );
         this.input = "";
+        this.errorSending = null;
       } catch (error) {
         this.errorSending = error;
       }
