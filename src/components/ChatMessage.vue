@@ -4,6 +4,11 @@
       <p class="message__text">{{ message.content }}</p>
       <span class="message__time">{{ time }}</span>
     </div>
+    <i
+      v-if="isCurrentUser"
+      class="message__delete far fa-trash-alt"
+      @click="$emit('delete', message._id)"
+    />
   </div>
 </template>
 
@@ -11,16 +16,20 @@
 import moment from "moment";
 
 export default {
+  emits: ["delete"],
   props: {
     message: Object,
   },
   computed: {
+    isCurrentUser() {
+      return this.message.sender._id === this.$store.getters.user._id;
+    },
     time() {
       return moment(this.message.sentAt).format("LT");
     },
     classes() {
       let classes = "message";
-      if (this.message.sender._id === this.$store.getters.user._id) {
+      if (this.isCurrentUser) {
         classes += " message--user";
       } else {
         classes += " message--correspondent";
@@ -73,17 +82,27 @@ export default {
   &--user &__content {
     background-color: #93cff7;
     color: #000;
-    margin-left: 1rem;
   }
 
   &--correspondent &__content {
     background-color: #1520a6;
     color: #fff;
-    margin-right: 1rem;
   }
 
   &__time {
     font-size: 0.8rem;
+  }
+
+  &__delete {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-right: 1rem;
+    transition: color 0.4s;
+    cursor: pointer;
+
+    &:hover {
+      color: #1520a6;
+    }
   }
 }
 </style>

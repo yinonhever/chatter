@@ -36,7 +36,8 @@ export default {
   margin-top: 3rem;
 }
 
-.profile-form + .error {
+.profile-form + .error,
+.chat + .error {
   margin-top: 4rem;
 }
 

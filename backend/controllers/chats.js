@@ -117,6 +117,7 @@ exports.sendMessage = async (req, res) => {
             sentAt: new Date()
         };
         chat.messages.unshift(newMessage);
+        newMessage._id = chat.messages[0]._id;
         await chat.save();
         io.get().emit("addMessage", { message: newMessage });
 
