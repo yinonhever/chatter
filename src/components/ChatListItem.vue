@@ -11,9 +11,9 @@
         <span class="chat-item__time">{{ time }}</span>
       </div>
       <p class="chat-item__message">{{ message }}</p>
-      <span v-if="unreadMessages" class="chat-item__number">{{
-        unreadMessages
-      }}</span>
+      <span v-if="unreadMessages" class="chat-item__count">
+        {{ unreadMessages }}
+      </span>
     </div>
   </RouterLink>
 </template>
@@ -97,6 +97,10 @@ export default {
     justify-content: space-between;
   }
 
+  &--new &__top {
+    align-items: flex-start;
+  }
+
   &__username {
     font-weight: 500;
     font-size: 1.5rem;
@@ -124,6 +128,29 @@ export default {
 
   &--new * {
     font-weight: 700;
+  }
+
+  &__count {
+    position: absolute;
+    right: 0;
+    bottom: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.25rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media only screen and (max-width: 500px) {
+      transform: none;
+      top: initial;
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.1rem;
+    }
   }
 }
 </style>
