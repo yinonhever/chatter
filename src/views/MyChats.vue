@@ -2,23 +2,16 @@
   <Page title="My Chats">
     <Spinner v-if="loading" />
     <ErrorMessage v-else-if="error" :error="error" />
-    <div v-else>
-      <RouterLink
-        v-for="{ correspondent } in chats"
-        :key="correspondent._id"
-        :to="`/chats/${correspondent._id}`"
-        style="display: block; margin-bottom: 2rem;"
-      >
-        {{ correspondent.name }}
-      </RouterLink>
-    </div>
+    <ChatList v-else :chats="chats" />
   </Page>
 </template>
 
 <script>
 import axios from "axios";
+import ChatList from "../components/ChatList";
 
 export default {
+  components: { ChatList },
   data() {
     return {
       chats: [],
@@ -32,7 +25,6 @@ export default {
         const response = await axios.get("http://localhost:5000/api/chats", {
           headers: { Authorization: this.$store.getters.token },
         });
-        console.log(response.data);
         this.chats = response.data;
       } catch (error) {
         this.error = error;

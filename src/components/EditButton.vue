@@ -6,7 +6,7 @@
 </template>
 
 <style lang="scss">
-.edit-button.edit-button {
+.button.edit-button {
   background-color: #1520a6;
   display: flex;
   align-items: center;
