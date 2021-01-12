@@ -11,6 +11,9 @@
         <span class="chat-item__time">{{ time }}</span>
       </div>
       <p class="chat-item__message">{{ message }}</p>
+      <span v-if="unreadMessages" class="chat-item__number">{{
+        unreadMessages
+      }}</span>
     </div>
   </RouterLink>
 </template>
@@ -22,6 +25,7 @@ export default {
   props: {
     correspondent: Object,
     lastMessage: Object,
+    unreadMessages: Number,
   },
   computed: {
     time() {
@@ -40,16 +44,9 @@ export default {
         return content.substr(1, 50) + "...";
       }
     },
-    hasUnreadMessages() {
-      console.log(this.lastMessage.sender);
-      return (
-        this.lastMessage.sender !== this.$store.getters.user._id &&
-        !this.lastMessage.read
-      );
-    },
     classes() {
       let classes = "chat-item";
-      if (this.hasUnreadMessages) classes += " chat-item--new";
+      if (this.unreadMessages) classes += " chat-item--new";
       return classes;
     },
   },
@@ -103,6 +100,7 @@ export default {
   &__username {
     font-weight: 500;
     font-size: 1.5rem;
+    margin-bottom: 0.1rem;
   }
 
   &__time {

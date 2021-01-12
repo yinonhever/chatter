@@ -20,16 +20,20 @@ exports.getUserChats = async (req, res) => {
 
         const data = [];
         user.chats.forEach(chat => {
-            if (chat.messages.length > 0) {
+            if (chat.messages.length) {
+                const unreadMessages = chat.messages.filter(message =>
+                    message.sender.toString() !== req.userId && !message.read
+                ).length;
+                const correspondent = chat.users.find(usr => usr._id.toString() !== req.userId);
                 data.push({
                     _id: chat._id,
-                    correspondent: chat.users.find(usr => usr._id.toString() !== req.userId),
+                    correspondent,
                     lastMessage: chat.messages[0],
-                    updatedAt: chat.updatedAt
+                    unreadMessages
                 });
             }
         });
-        data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+        data.sort((a, b) => new Date(b.lastMessage.sentAt) - new Date(a.lastMessage.sentAt));
 
         res.status(200).json(data);
     } catch (err) {
@@ -119,7 +123,7 @@ exports.sendMessage = async (req, res) => {
         chat.messages.unshift(newMessage);
         newMessage._id = chat.messages[0]._id;
         await chat.save();
-        io.get().emit("addMessage", { message: newMessage });
+        io.get().emit("addMessage", { chatId, message: newMessage });
 
         res.status(201).json({ message: "Message sent", messageData: newMessage });
     } catch (err) {

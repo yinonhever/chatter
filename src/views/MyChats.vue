@@ -8,6 +8,7 @@
 
 <script>
 import axios from "axios";
+import socket from "socket.io-client";
 import ChatList from "../components/ChatList";
 
 export default {
@@ -31,9 +32,24 @@ export default {
       }
       this.loading = false;
     },
+    initSocket() {
+      const io = socket("http://localhost:5000");
+      io.on("addMessage", ({ chatId, message }) => {
+        const index = this.chats.findIndex((chat) => chat._id === chatId);
+        if (index >= 0) {
+          this.chats[index].lastMessage = message;
+          this.chats[index].unreadMessages++;
+          this.chats.sort(
+            (a, b) =>
+              new Date(b.lastMessage.sentAt) - new Date(a.lastMessage.sentAt)
+          );
+        }
+      });
+    },
   },
   created() {
     this.loadChats();
+    this.initSocket();
   },
 };
 </script>
