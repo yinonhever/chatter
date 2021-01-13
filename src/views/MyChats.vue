@@ -47,6 +47,8 @@ export default {
           this.chats[index].unreadMessages++;
         }
         this.updateListOrder();
+      } else {
+        this.loadChats();
       }
     },
     async messageDeletedHandler({ chatId }) {
