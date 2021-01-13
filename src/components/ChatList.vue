@@ -29,5 +29,6 @@ export default {
   box-shadow: rgba(62, 57, 107, 0.36) 0px 16px 38px -12px,
     rgba(62, 57, 107, 0.12) 0px 4px 25px 0px,
     rgba(62, 57, 107, 0.2) 0px 8px 10px -5px;
+  overflow: hidden;
 }
 </style>

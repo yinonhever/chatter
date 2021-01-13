@@ -119,19 +119,3 @@ exports.updateUserDetails = async (req, res) => {
         res.status(500).json({ message: "An error occured. Please try again in a moment." });
     }
 }
-
-exports.insertUsers = async (req, res) => {
-    try {
-        const createdUsers = [];
-        req.body.forEach(async item => {
-            const user = new User({ ...item });
-            user.password = await bcrypt.hash(item.password, 12);
-            const createdUser = await user.save();
-            createdUsers.push(createdUser);
-        })
-        res.status(201).json(createdUsers);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "An error occured. Please try again in a moment." });
-    }
-}

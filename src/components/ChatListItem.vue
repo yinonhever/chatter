@@ -27,6 +27,11 @@ export default {
     lastMessage: Object,
     unreadMessages: Number,
   },
+  data() {
+    return {
+      maxCharacters: window.innerWidth > 600 ? 50 : 30,
+    };
+  },
   computed: {
     time() {
       const { sentAt } = this.lastMessage;
@@ -40,10 +45,10 @@ export default {
     },
     message() {
       const { content } = this.lastMessage;
-      if (content.length <= 50) {
+      if (content.length <= this.maxCharacters) {
         return content;
       } else {
-        return content.substr(1, 50) + "...";
+        return content.substr(1, this.maxCharacters) + "...";
       }
     },
     classes() {
@@ -51,6 +56,11 @@ export default {
       if (this.unreadMessages) classes += " chat-item--new";
       return classes;
     },
+  },
+  created() {
+    window.addEventListener("resize", () => {
+      this.maxCharacters = window.innerWidth > 600 ? 50 : 30;
+    });
   },
 };
 </script>
