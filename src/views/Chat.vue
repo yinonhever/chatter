@@ -123,7 +123,7 @@ export default {
 <style lang="scss">
 .chat {
   width: 100%;
-  max-width: 55rem;
+  max-width: 50rem;
   margin: auto;
   border-radius: 1rem;
   overflow: hidden;

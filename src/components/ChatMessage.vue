@@ -22,11 +22,6 @@ export default {
   props: {
     message: Object,
   },
-  data() {
-    return {
-      showDropdown: false,
-    };
-  },
   computed: {
     isCurrentUser() {
       return this.message.sender._id === this.$store.getters.user._id;
@@ -42,11 +37,6 @@ export default {
         classes += " message--correspondent";
       }
       return classes;
-    },
-  },
-  watch: {
-    showDropdown(value) {
-      console.log(value);
     },
   },
 };

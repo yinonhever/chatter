@@ -3,14 +3,14 @@
     <h3 class="date-section__date">
       {{ displayedDate }}
     </h3>
-    <TransitionGroup tag="div" class="date-section__messages" name="message">
+    <div class="date-section__messages">
       <ChatMessage
         v-for="message in messages"
         :key="message._id"
         :message="message"
         @delete="(messageId) => $emit('delete-message', messageId)"
       />
-    </TransitionGroup>
+    </div>
   </section>
 </template>
 

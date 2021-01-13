@@ -48,7 +48,7 @@ export default {
       if (content.length <= this.maxCharacters) {
         return content;
       } else {
-        return content.substr(1, this.maxCharacters) + "...";
+        return content.substr(0, this.maxCharacters) + "...";
       }
     },
     classes() {

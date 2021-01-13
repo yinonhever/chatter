@@ -9,11 +9,13 @@
 
 <script>
 import TheHeader from "./components/TheHeader";
+import Scrollbar from "smooth-scrollbar";
 
 export default {
   components: { TheHeader },
   created() {
     this.$store.dispatch("tryAutoLogin");
+    Scrollbar.init(document.querySelector("#app"), { alwaysShowTracks: true });
   },
 };
 </script>

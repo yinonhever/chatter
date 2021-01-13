@@ -1,5 +1,5 @@
 <template>
-  <main class="chat__main">
+  <main class="chat__main" ref="container">
     <div v-if="!messages.length" class="chat__empty">
       <i class="far fa-comments" />
       <p>Start a chat by typing a message below.</p>
@@ -16,8 +16,9 @@
 </template>
 
 <script>
-import ChatDate from "./ChatDate";
 import moment from "moment";
+import Scrollbar from "smooth-scrollbar";
+import ChatDate from "./ChatDate";
 
 export default {
   components: { ChatDate },
@@ -48,7 +49,9 @@ export default {
       return dates;
     },
   },
-  mounted() {},
+  mounted() {
+    Scrollbar.init(this.$refs.container);
+  },
 };
 </script>
 
@@ -59,16 +62,19 @@ export default {
     overflow: auto;
     background-color: rgba(#fff, 0.6);
     position: relative;
+
+    .scroll-content {
+      min-height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   &__empty {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
     width: 100%;
     text-align: center;
     padding: 2rem;
@@ -84,8 +90,12 @@ export default {
   }
 
   &__timeline {
-    padding: 2rem;
-    min-height: 100%;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+    align-self: flex-start;
 
     @media only screen and (max-width: 500px) {
       padding: 2rem 0.8rem;

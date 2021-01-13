@@ -68,14 +68,7 @@ exports.createOrOpenChat = async (req, res) => {
                     }
                 }
             ]).execPopulate();
-            const unreadMessages = existingChat.messages.filter(message =>
-                message.sender._id.toString() !== req.userId && !message.read
-            ).length;
-            return res.status(200).json({
-                message: "Fetched existing chat",
-                chat: existingChat,
-                unreadMessages
-            });
+            return res.status(200).json({ message: "Fetched existing chat", chat: existingChat });
         }
 
         const addressUser = await User.findById(addressUserId);
@@ -156,7 +149,7 @@ exports.unsendMessage = async (req, res) => {
 
         chat.messages = chat.messages.filter(msg => msg._id.toString() !== messageId);
         await chat.save();
-        io.get().emit("deleteMessage", { chatId, messageId });
+        io.get().emit("deleteMessage", { messageId });
 
         res.status(200).json({ message: "Message deleted" });
     } catch (err) {

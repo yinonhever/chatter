@@ -23,14 +23,16 @@ export default {
     };
   },
   methods: {
-    async loadChats() {
+    async loadChats(handleError = true) {
       try {
         const response = await axios.get("http://localhost:5000/api/chats", {
           headers: { Authorization: this.$store.getters.token },
         });
         this.chats = response.data;
       } catch (error) {
-        this.error = error;
+        if (handleError) {
+          this.error = error;
+        }
       }
       this.loading = false;
     },
@@ -48,10 +50,10 @@ export default {
               new Date(b.lastMessage.sentAt) - new Date(a.lastMessage.sentAt)
           );
         } else {
-          this.loadChats();
+          this.loadChats(false);
         }
       });
-      io.on("deleteMessage", () => this.loadChats());
+      io.on("deleteMessage", () => this.loadChats(false));
     },
   },
   created() {

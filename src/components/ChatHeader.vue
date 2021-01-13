@@ -21,7 +21,7 @@ export default {
 <style lang="scss">
 .chat {
   &__header {
-    background-color: #007bff;
+    background: linear-gradient(to right, #007bff, #1520a6);
     color: #fff;
     padding: 1rem;
     display: flex;
