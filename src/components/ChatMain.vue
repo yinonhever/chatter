@@ -84,10 +84,11 @@ export default {
   }
 
   &__timeline {
-    padding: 3rem 2rem;
+    padding: 2rem;
+    min-height: 100%;
 
     @media only screen and (max-width: 500px) {
-      padding: 3rem 0.8rem;
+      padding: 2rem 0.8rem;
     }
   }
 }

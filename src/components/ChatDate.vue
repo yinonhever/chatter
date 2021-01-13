@@ -3,14 +3,14 @@
     <h3 class="date-section__date">
       {{ displayedDate }}
     </h3>
-    <div class="date-section__messages">
+    <TransitionGroup tag="div" class="date-section__messages" name="message">
       <ChatMessage
         v-for="message in messages"
         :key="message._id"
         :message="message"
         @delete="(messageId) => $emit('delete-message', messageId)"
       />
-    </div>
+    </TransitionGroup>
   </section>
 </template>
 
@@ -36,14 +36,29 @@ export default {
 
 <style lang="scss">
 .date-section {
+  position: relative;
+
   &:not(:last-child) {
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: calc(100% + 2.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+      height: 1px;
+      width: 12rem;
+      max-width: 40%;
+      background-color: #ccc;
+    }
   }
 
   &__date {
     text-align: center;
     margin-bottom: 2rem;
     font-weight: 500;
+    font-size: 1.6rem;
   }
 }
 </style>

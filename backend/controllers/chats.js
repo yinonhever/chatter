@@ -156,7 +156,7 @@ exports.unsendMessage = async (req, res) => {
 
         chat.messages = chat.messages.filter(msg => msg._id.toString() !== messageId);
         await chat.save();
-        io.get().emit("deleteMessage", { messageId });
+        io.get().emit("deleteMessage", { chatId, messageId });
 
         res.status(200).json({ message: "Message deleted" });
     } catch (err) {
