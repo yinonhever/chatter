@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import axios from "axios";
+import axios from "../axios";
 import router from "../router";
 
 let logoutTimer;
@@ -29,9 +29,9 @@ export default createStore({
             const { mode, data } = payload;
             let url;
             if (mode === "signup") {
-                url = "http://localhost:5000/api/users";
+                url = "/api/users";
             } else if (mode === "login") {
-                url = "http://localhost:5000/api/users/login";
+                url = "/api/users/login";
             }
 
             const response = await axios.post(url, data);

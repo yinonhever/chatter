@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../axios";
 import DatePicker from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 
@@ -106,7 +106,7 @@ export default {
     async loadDetails() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/users/${this.$store.getters.user._id}`
+          `/api/users/${this.$store.getters.user._id}`
         );
         for (let key in this.formData) {
           if (response.data[key]) {
@@ -122,7 +122,7 @@ export default {
       this.submitting = true;
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/users/${this.$store.getters.user._id}`,
+          `/api/users/${this.$store.getters.user._id}`,
           this.formData,
           { headers: { Authorization: this.$store.getters.token } }
         );

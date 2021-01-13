@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../axios";
 import moment from "moment";
 import EditButton from "../components/EditButton";
 
@@ -73,9 +73,7 @@ export default {
   methods: {
     async loadDetails() {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/users/${this.userId}`
-        );
+        const response = await axios.get(`/api/users/${this.userId}`);
         this.user = response.data;
       } catch (error) {
         this.error = error;

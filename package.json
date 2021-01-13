@@ -12,6 +12,7 @@
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "moment": "^2.29.1",
+    "scrollreveal": "^4.0.7",
     "smooth-scrollbar": "^8.5.3",
     "socket.io-client": "^3.0.5",
     "v-calendar": "^2.2.0",

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios, { baseURL } from "../axios";
 import socket from "socket.io-client";
 import ChatHeader from "../components/ChatHeader";
 import ChatMain from "../components/ChatMain";
@@ -52,10 +52,9 @@ export default {
   methods: {
     async loadChat() {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/chats/${this.addressUserId}`,
-          { headers: { Authorization: this.$store.getters.token } }
-        );
+        const response = await axios.get(`/api/chats/${this.addressUserId}`, {
+          headers: { Authorization: this.$store.getters.token },
+        });
         this.chat = response.data.chat;
         this.markAsRead();
       } catch (error) {
@@ -65,13 +64,13 @@ export default {
     },
     markAsRead() {
       axios.put(
-        `http://localhost:5000/api/chats/${this.chat._id}/read`,
+        `/api/chats/${this.chat._id}/read`,
         {},
         { headers: { Authorization: this.$store.getters.token } }
       );
     },
     initSocket() {
-      const io = socket("http://localhost:5000");
+      const io = socket(baseURL);
       io.on("addMessage", ({ message }) => {
         this.chat.messages.unshift(message);
         if (message.sender._id !== this.$store.getters.user._id) {
@@ -94,7 +93,7 @@ export default {
       this.sending = true;
       try {
         await axios.post(
-          `http://localhost:5000/api/chats/${this.chat._id}`,
+          `/api/chats/${this.chat._id}`,
           { message: this.input },
           { headers: { Authorization: this.$store.getters.token } }
         );
@@ -109,10 +108,9 @@ export default {
       this.chat.messages = this.chat.messages.filter(
         (message) => message._id !== messageId
       );
-      axios.delete(
-        `http://localhost:5000/api/chats/${this.chat._id}/${messageId}`,
-        { headers: { Authorization: this.$store.getters.token } }
-      );
+      axios.delete(`/api/chats/${this.chat._id}/${messageId}`, {
+        headers: { Authorization: this.$store.getters.token },
+      });
     },
   },
   created() {

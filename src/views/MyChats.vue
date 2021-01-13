@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios, { baseURL } from "../axios";
 import socket from "socket.io-client";
 import ChatList from "../components/ChatList";
 import NoChats from "../components/NoChats";
@@ -25,7 +25,7 @@ export default {
   methods: {
     async loadChats(handleError = true) {
       try {
-        const response = await axios.get("http://localhost:5000/api/chats", {
+        const response = await axios.get("/api/chats", {
           headers: { Authorization: this.$store.getters.token },
         });
         this.chats = response.data;
@@ -37,7 +37,7 @@ export default {
       this.loading = false;
     },
     initSocket() {
-      const io = socket("http://localhost:5000");
+      const io = socket(baseURL);
       io.on("addMessage", ({ chatId, message }) => {
         const index = this.chats.findIndex((chat) => chat._id === chatId);
         if (index >= 0) {

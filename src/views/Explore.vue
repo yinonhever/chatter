@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../axios";
 import SearchBox from "../components/SearchBox";
 import ExploreCard from "../components/ExploreCard";
 
@@ -33,7 +33,7 @@ export default {
   methods: {
     async loadUsers() {
       try {
-        const response = await axios.get("http://localhost:5000/api/users");
+        const response = await axios.get("/api/users");
         const users = response.data.filter(
           (user) => user._id !== this.$store.getters.user._id
         );

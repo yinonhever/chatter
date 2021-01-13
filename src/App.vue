@@ -49,6 +49,7 @@ body {
   padding: 2rem 4vw 6rem;
   overflow: hidden;
   position: relative;
+  min-height: 100%;
 
   @media only screen and (min-width: 1150px) {
     padding: 3rem 9vw 6rem;
