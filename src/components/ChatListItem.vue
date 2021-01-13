@@ -31,7 +31,9 @@ export default {
     time() {
       const { sentAt } = this.lastMessage;
       if (moment(sentAt).format("L") === moment().format("L")) {
-        return moment(sentAt).format("LT");
+        const hour = moment(sentAt).format("HH");
+        const minutes = moment(sentAt).format("mm");
+        return `${hour}:${minutes}`;
       } else {
         return moment(sentAt).format("L");
       }
@@ -104,6 +106,10 @@ export default {
   &__username {
     font-weight: 500;
     font-size: 1.5rem;
+
+    @media only screen and (max-width: 500px) {
+      font-size: 1.4rem;
+    }
   }
 
   &__time {

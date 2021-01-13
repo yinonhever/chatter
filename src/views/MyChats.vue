@@ -41,7 +41,9 @@ export default {
       const index = this.chats.findIndex((chat) => chat._id === chatId);
       if (index >= 0) {
         this.chats[index].lastMessage = message;
-        this.chats[index].unreadMessages++;
+        if (message.sender._id !== this.$store.getters.user._id) {
+          this.chats[index].unreadMessages++;
+        }
         this.updateListOrder();
       }
     },

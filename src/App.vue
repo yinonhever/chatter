@@ -69,7 +69,7 @@ body {
 }
 
 #app {
-  padding: 2.5rem 4vw 6rem;
+  padding: 2rem 4vw 6rem;
   overflow: hidden;
   position: relative;
 
@@ -89,6 +89,18 @@ a {
   &:hover {
     text-decoration: none;
     color: inherit;
+  }
+}
+
+.hide-desktop {
+  @media only screen and (min-width: 901px) {
+    display: none;
+  }
+}
+
+.hide-mobile {
+  @media only screen and (max-width: 900px) {
+    display: none;
   }
 }
 
