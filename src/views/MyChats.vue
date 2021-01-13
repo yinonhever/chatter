@@ -36,40 +36,22 @@ export default {
     },
     initSocket() {
       const io = socket("http://localhost:5000");
-      io.on("addMessage", this.messageAddedHandler);
-      io.on("deleteMessage", this.messageDeletedHandler);
-    },
-    messageAddedHandler({ chatId, message }) {
-      const index = this.chats.findIndex((chat) => chat._id === chatId);
-      if (index >= 0) {
-        this.chats[index].lastMessage = message;
-        if (message.sender._id !== this.$store.getters.user._id) {
-          this.chats[index].unreadMessages++;
+      io.on("addMessage", ({ chatId, message }) => {
+        const index = this.chats.findIndex((chat) => chat._id === chatId);
+        if (index >= 0) {
+          this.chats[index].lastMessage = message;
+          if (message.sender._id !== this.$store.getters.user._id) {
+            this.chats[index].unreadMessages++;
+          }
+          this.chats.sort(
+            (a, b) =>
+              new Date(b.lastMessage.sentAt) - new Date(a.lastMessage.sentAt)
+          );
+        } else {
+          this.loadChats();
         }
-        this.updateListOrder();
-      } else {
-        this.loadChats();
-      }
-    },
-    async messageDeletedHandler({ chatId }) {
-      const index = this.chats.findIndex((chat) => chat._id === chatId);
-      if (index >= 0) {
-        const { correspondent } = this.chats[index];
-        const response = await axios.get(
-          `http://localhost:5000/api/chats/${correspondent._id}`,
-          { headers: { Authorization: this.$store.getters.token } }
-        );
-        const { chat, unreadMessages } = response.data;
-        this.chats[index].lastMessage = chat.messages[0];
-        this.chats[index].unreadMessages = unreadMessages;
-        this.updateListOrder();
-      }
-    },
-    updateListOrder() {
-      this.chats.sort(
-        (a, b) =>
-          new Date(b.lastMessage.sentAt) - new Date(a.lastMessage.sentAt)
-      );
+      });
+      io.on("deleteMessage", () => this.loadChats());
     },
   },
   created() {
