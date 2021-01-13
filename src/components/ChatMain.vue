@@ -50,7 +50,9 @@ export default {
     },
   },
   mounted() {
-    Scrollbar.init(this.$refs.container);
+    const { container } = this.$refs;
+    const scrollbar = Scrollbar.init(container);
+    scrollbar.scrollTop = container.scrollHeight;
   },
 };
 </script>

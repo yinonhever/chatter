@@ -36,6 +36,7 @@ export default {
       errorLoading: null,
       sending: false,
       errorSending: null,
+      scrollbar: null,
     };
   },
   computed: {
@@ -87,6 +88,7 @@ export default {
     setInput(event) {
       this.input = event.target.value;
     },
+    initScrollbar() {},
     async sendMessage() {
       if (!this.input.trim()) return;
       this.sending = true;
