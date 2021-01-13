@@ -109,13 +109,18 @@ export default {
     font-size: 1.35rem;
     letter-spacing: 1px;
     font-weight: 500;
-    transition: color 0.5s;
     cursor: pointer;
     animation: fadeIn 0.5s ease-out;
 
-    &:hover,
-    &.active {
-      color: #007bff;
+    a,
+    span {
+      transition: color 0.5s;
+      &:hover,
+      &.active {
+        @media only screen and (min-width: 901px) {
+          color: #007bff;
+        }
+      }
     }
 
     &:not(:last-child) {
@@ -182,11 +187,6 @@ export default {
       &:not(:last-child) {
         margin-right: 0;
         margin-bottom: 3.5rem;
-      }
-
-      .button {
-        color: #fff;
-        font-size: 2rem;
       }
     }
 

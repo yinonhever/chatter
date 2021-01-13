@@ -2,7 +2,8 @@
   <Page title="My Chats">
     <Spinner v-if="loading" />
     <ErrorMessage v-else-if="error" :error="error" />
-    <ChatList v-else :chats="chats" />
+    <ChatList v-else-if="chats.length" :chats="chats" />
+    <NoChats v-else />
   </Page>
 </template>
 
@@ -10,9 +11,10 @@
 import axios from "axios";
 import socket from "socket.io-client";
 import ChatList from "../components/ChatList";
+import NoChats from "../components/NoChats";
 
 export default {
-  components: { ChatList },
+  components: { ChatList, NoChats },
   data() {
     return {
       chats: [],

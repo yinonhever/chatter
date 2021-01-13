@@ -51,10 +51,14 @@ export default {
   }
 
   &__text {
-    color: #fff;
     padding: 0 1rem;
     text-transform: initial;
     font-size: 1.45rem;
+
+    &,
+    &:hover {
+      color: #fff;
+    }
 
     @media only screen and (max-width: 900px) {
       text-transform: uppercase;
