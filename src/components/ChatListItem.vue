@@ -1,21 +1,19 @@
 <template>
   <RouterLink :class="classes" :to="`/chats/${correspondent._id}`">
-    <div class="chat-item__container">
-      <img
-        class="chat-item__avatar"
-        :src="correspondent.avatar"
-        :alt="correspondent.name"
-      />
-      <div class="chat-item__content">
-        <div class="chat-item__top">
-          <span class="chat-item__username">{{ correspondent.name }}</span>
-          <span class="chat-item__time">{{ time }}</span>
-        </div>
-        <p class="chat-item__message">{{ message }}</p>
-        <span v-if="unreadMessages" class="chat-item__count">
-          {{ unreadMessages }}
-        </span>
+    <img
+      class="chat-item__avatar"
+      :src="correspondent.avatar"
+      :alt="correspondent.name"
+    />
+    <div class="chat-item__content">
+      <div class="chat-item__top">
+        <span class="chat-item__username">{{ correspondent.name }}</span>
+        <span class="chat-item__time">{{ time }}</span>
       </div>
+      <p class="chat-item__message">{{ message }}</p>
+      <span v-if="unreadMessages" class="chat-item__count">
+        {{ unreadMessages }}
+      </span>
     </div>
   </RouterLink>
 </template>
@@ -70,23 +68,17 @@ export default {
 <style lang="scss">
 .chat-item {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  align-items: stretch;
+  padding: 0 2rem;
+  background-color: rgba(#fff, 0.8);
+  transition: all 0.5s;
 
-  &__container {
-    display: flex;
-    align-items: stretch;
-    padding: 0 2rem;
-    background-color: rgba(#fff, 0.8);
-    transition: all 0.5s;
+  @media only screen and (max-width: 500px) {
+    padding: 0 1.5rem;
+  }
 
-    &:hover {
-      background-color: rgba(#ccc, 0.6);
-    }
-
-    @media only screen and (max-width: 500px) {
-      padding: 0 1.5rem;
-    }
+  &:hover {
+    background-color: rgba(#ccc, 0.6);
   }
 
   * {
@@ -103,11 +95,13 @@ export default {
 
   &__avatar {
     width: 5rem;
+    height: 5rem;
     border-radius: 50%;
     margin: 1.5rem 1.5rem 1.5rem 0;
 
     @media only screen and (max-width: 500px) {
       width: 4rem;
+      height: 4rem;
       margin-right: 1rem;
     }
   }
