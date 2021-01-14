@@ -1,16 +1,16 @@
 <template>
-  <section class="date-section">
+  <section class="date-section" ref="section">
     <h3 class="date-section__date">
       {{ displayedDate }}
     </h3>
-    <div class="date-section__messages">
+    <TransitionGroup tag="div" class="date-section__messages" name="messages">
       <ChatMessage
         v-for="message in messages"
         :key="message._id"
         :message="message"
         @delete="(messageId) => $emit('delete-message', messageId)"
       />
-    </div>
+    </TransitionGroup>
   </section>
 </template>
 
@@ -24,12 +24,20 @@ export default {
     date: Date,
     messages: Array,
   },
+  inject: ["getScrollbar"],
   computed: {
     displayedDate() {
       return (
         moment(this.date).format("ddd") + ", " + moment(this.date).format("ll")
       );
     },
+  },
+  mounted() {
+    const scrollbar = this.getScrollbar();
+    const { section } = this.$refs;
+    if (scrollbar) {
+      scrollbar.scrollTop += section.offsetHeight * 2;
+    }
   },
 };
 </script>

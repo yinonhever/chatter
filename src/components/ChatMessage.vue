@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes">
+  <div :class="classes" ref="message">
     <div class="message__content">
       <p class="message__text">{{ message.content }}</p>
       <div class="message__bottom">
@@ -22,6 +22,7 @@ export default {
   props: {
     message: Object,
   },
+  inject: ["getScrollbar"],
   computed: {
     isCurrentUser() {
       return this.message.sender._id === this.$store.getters.user._id;
@@ -30,7 +31,7 @@ export default {
       return moment(this.message.sentAt).format("LT");
     },
     classes() {
-      let classes = "message zoom-in";
+      let classes = "message";
       if (this.isCurrentUser) {
         classes += " message--user";
       } else {
@@ -38,6 +39,13 @@ export default {
       }
       return classes;
     },
+  },
+  mounted() {
+    const scrollbar = this.getScrollbar();
+    const { message } = this.$refs;
+    if (scrollbar) {
+      scrollbar.scrollTop += message.offsetHeight;
+    }
   },
 };
 </script>

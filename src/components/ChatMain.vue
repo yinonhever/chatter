@@ -4,14 +4,14 @@
       <i class="far fa-comments" />
       <p>Start a chat by typing a message below.</p>
     </div>
-    <div v-else class="chat__timeline">
+    <TransitionGroup v-else tag="div" class="chat__timeline" name="messages">
       <ChatDate
         v-for="dateItem in dates"
         :key="dateItem.date"
         v-bind="dateItem"
         @delete-message="(messageId) => $emit('delete-message', messageId)"
       />
-    </div>
+    </TransitionGroup>
   </main>
 </template>
 
@@ -27,10 +27,20 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      scrollbar: null,
+    };
+  },
   mounted() {
     const { container } = this.$refs;
-    const scrollbar = Scrollbar.init(container);
-    scrollbar.scrollTop = container.scrollHeight;
+    this.scrollbar = Scrollbar.init(container);
+    this.scrollbar.scrollTop = container.scrollHeight;
+  },
+  provide() {
+    return {
+      getScrollbar: () => this.scrollbar,
+    };
   },
 };
 </script>
@@ -81,5 +91,26 @@ export default {
       padding: 2rem 0.8rem;
     }
   }
+}
+
+.messages-leave-to,
+.messages-enter-from {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.messages-leave-from,
+.messages-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.messages-leave-active,
+.messages-enter-active {
+  transition: all 0.5s;
+}
+
+.messages-move {
+  transition: transform 0.5s;
 }
 </style>

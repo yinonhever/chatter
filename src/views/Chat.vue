@@ -71,28 +71,10 @@ export default {
     },
     initSocket() {
       const io = socket(baseURL);
-      io.on("addMessage", ({ message }) => {
-        const index = this.dates.findIndex(
-          (item) =>
-            moment(item.date).format("LL") ===
-            moment(message.sentAt).format("LL")
-        );
-        if (index >= 0) {
-          this.dates[index].messages.push(message);
-        } else {
-          this.dates.push({
-            date: new Date(),
-            messages: [message],
-          });
-        }
-        if (message.sender._id !== this.$store.getters.user._id) {
-          const sound = new Audio("/audio/message-received.mp3");
-          sound.play();
-        }
-      });
-      io.on("deleteMessage", ({ messageId }) => {
-        this.removeMessageById(messageId);
-      });
+      io.on("addMessage", ({ message }) => this.addMessage(message));
+      io.on("deleteMessage", ({ messageId }) =>
+        this.removeMessageById(messageId)
+      );
     },
     setInput(event) {
       this.input = event.target.value;
@@ -118,6 +100,24 @@ export default {
       axios.delete(`/api/chats/${this.chatId}/${messageId}`, {
         headers: { Authorization: this.$store.getters.token },
       });
+    },
+    addMessage(message) {
+      const index = this.dates.findIndex(
+        (item) =>
+          moment(item.date).format("LL") === moment(message.sentAt).format("LL")
+      );
+      if (index >= 0) {
+        this.dates[index].messages.push(message);
+      } else {
+        this.dates.push({
+          date: new Date(message.sentAt),
+          messages: [message],
+        });
+      }
+      if (message.sender._id !== this.$store.getters.user._id) {
+        const sound = new Audio("/audio/message-received.mp3");
+        sound.play();
+      }
     },
     removeMessageById(messageId) {
       const index = this.dates.findIndex(
