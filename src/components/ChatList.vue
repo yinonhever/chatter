@@ -21,8 +21,7 @@ export default {
 <style lang="scss">
 .chat-list {
   max-width: 50rem;
-  margin: auto;
-  background-color: rgba(#fff, 0.8);
+  margin: 0 auto;
   border-radius: 0.8rem;
   box-shadow: rgba(62, 57, 107, 0.36) 0px 16px 38px -12px,
     rgba(62, 57, 107, 0.12) 0px 4px 25px 0px,
