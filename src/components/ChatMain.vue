@@ -1,6 +1,6 @@
 <template>
   <main class="chat__main" ref="container">
-    <div v-if="!messages.length" class="chat__empty">
+    <div v-if="!dates.length" class="chat__empty">
       <i class="far fa-comments" />
       <p>Start a chat by typing a message below.</p>
     </div>
@@ -16,37 +16,15 @@
 </template>
 
 <script>
-import moment from "moment";
 import Scrollbar from "smooth-scrollbar";
 import ChatDate from "./ChatDate";
 
 export default {
   components: { ChatDate },
   props: {
-    messages: {
+    dates: {
       type: Array,
       required: true,
-    },
-  },
-  computed: {
-    dates() {
-      const dates = [];
-      this.messages.forEach((message) => {
-        const existingDateIndex = dates.findIndex(
-          (item) =>
-            moment(item.date).format("LL") ===
-            moment(message.sentAt).format("LL")
-        );
-        if (existingDateIndex >= 0) {
-          dates[existingDateIndex].messages.push(message);
-        } else {
-          dates.push({
-            date: new Date(message.sentAt),
-            messages: [message],
-          });
-        }
-      });
-      return dates;
     },
   },
   mounted() {

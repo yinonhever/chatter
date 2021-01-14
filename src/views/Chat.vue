@@ -4,7 +4,7 @@
     <ErrorMessage v-else-if="errorLoading" :error="errorLoading" />
     <div v-else class="chat zoom-in">
       <ChatHeader :user="correspondent" />
-      <ChatMain :messages="messages" @delete-message="deleteMessage" />
+      <ChatMain :dates="dates" @delete-message="deleteMessage" />
       <ChatInputArea
         :input="input"
         @changed="setInput"
@@ -19,6 +19,8 @@
 <script>
 import axios, { baseURL } from "../axios";
 import socket from "socket.io-client";
+import moment from "moment";
+import sortByDates from "../dates";
 import ChatHeader from "../components/ChatHeader";
 import ChatMain from "../components/ChatMain";
 import ChatInputArea from "../components/ChatInputArea";
@@ -30,24 +32,15 @@ export default {
   },
   data() {
     return {
-      chat: { messages: [] },
+      chatId: null,
+      dates: [],
+      correspondent: null,
       input: "",
       loading: true,
       errorLoading: null,
       sending: false,
       errorSending: null,
-      scrollbar: null,
     };
-  },
-  computed: {
-    correspondent() {
-      return this.chat.users.find(
-        (user) => user._id !== this.$store.getters.user._id
-      );
-    },
-    messages() {
-      return [...this.chat.messages].reverse();
-    },
   },
   methods: {
     async loadChat() {
@@ -55,16 +48,23 @@ export default {
         const response = await axios.get(`/api/chats/${this.addressUserId}`, {
           headers: { Authorization: this.$store.getters.token },
         });
-        this.chat = response.data.chat;
+        const { chat } = response.data;
+        chat.messages.reverse();
+        this.dates = sortByDates(chat.messages);
+        this.correspondent = chat.users.find(
+          (user) => user._id !== this.$store.getters.user._id
+        );
+        this.chatId = chat._id;
         this.markAsRead();
       } catch (error) {
+        console.log(error);
         this.errorLoading = error;
       }
       this.loading = false;
     },
     markAsRead() {
       axios.put(
-        `/api/chats/${this.chat._id}/read`,
+        `/api/chats/${this.chatId}/read`,
         {},
         { headers: { Authorization: this.$store.getters.token } }
       );
@@ -72,28 +72,37 @@ export default {
     initSocket() {
       const io = socket(baseURL);
       io.on("addMessage", ({ message }) => {
-        this.chat.messages.unshift(message);
+        const index = this.dates.findIndex(
+          (item) =>
+            moment(item.date).format("LL") ===
+            moment(message.sentAt).format("LL")
+        );
+        if (index >= 0) {
+          this.dates[index].messages.push(message);
+        } else {
+          this.dates.push({
+            date: new Date(),
+            messages: [message],
+          });
+        }
         if (message.sender._id !== this.$store.getters.user._id) {
           const sound = new Audio("/audio/message-received.mp3");
           sound.play();
         }
       });
       io.on("deleteMessage", ({ messageId }) => {
-        this.chat.messages = this.chat.messages.filter(
-          (message) => message._id !== messageId
-        );
+        this.removeMessageById(messageId);
       });
     },
     setInput(event) {
       this.input = event.target.value;
     },
-    initScrollbar() {},
     async sendMessage() {
       if (!this.input.trim()) return;
       this.sending = true;
       try {
         await axios.post(
-          `/api/chats/${this.chat._id}`,
+          `/api/chats/${this.chatId}`,
           { message: this.input },
           { headers: { Authorization: this.$store.getters.token } }
         );
@@ -105,12 +114,23 @@ export default {
       this.sending = false;
     },
     deleteMessage(messageId) {
-      this.chat.messages = this.chat.messages.filter(
-        (message) => message._id !== messageId
-      );
-      axios.delete(`/api/chats/${this.chat._id}/${messageId}`, {
+      this.removeMessageById(messageId);
+      axios.delete(`/api/chats/${this.chatId}/${messageId}`, {
         headers: { Authorization: this.$store.getters.token },
       });
+    },
+    removeMessageById(messageId) {
+      const index = this.dates.findIndex(
+        (item) => !!item.messages.find((message) => message._id === messageId)
+      );
+      if (index >= 0) {
+        this.dates[index].messages = this.dates[index].messages.filter(
+          (message) => message._id !== messageId
+        );
+        if (!this.dates[index].messages.length) {
+          this.dates.splice(index, 1);
+        }
+      }
     },
   },
   created() {

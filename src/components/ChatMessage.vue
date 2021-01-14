@@ -30,7 +30,7 @@ export default {
       return moment(this.message.sentAt).format("LT");
     },
     classes() {
-      let classes = "message";
+      let classes = "message zoom-in";
       if (this.isCurrentUser) {
         classes += " message--user";
       } else {
