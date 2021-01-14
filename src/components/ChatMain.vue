@@ -82,8 +82,7 @@ export default {
   &__timeline {
     padding: 2.5rem 2rem;
     width: 100%;
-    height: 100%;
-    overflow: auto;
+    min-height: 100%;
     position: relative;
     align-self: flex-start;
 

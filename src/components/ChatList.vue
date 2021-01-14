@@ -20,8 +20,6 @@ export default {
 
 <style lang="scss">
 .chat-list {
-  display: flex;
-  flex-direction: column;
   max-width: 50rem;
   margin: auto;
   background-color: rgba(#fff, 0.8);
