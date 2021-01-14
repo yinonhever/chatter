@@ -57,7 +57,6 @@ export default {
         this.chatId = chat._id;
         this.markAsRead();
       } catch (error) {
-        console.log(error);
         this.errorLoading = error;
       }
       this.loading = false;

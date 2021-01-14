@@ -109,8 +109,4 @@ export default {
 .messages-enter-active {
   transition: all 0.5s;
 }
-
-.messages-move {
-  transition: transform 0.5s;
-}
 </style>
