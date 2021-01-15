@@ -88,7 +88,6 @@ export default {
     font-size: 4.8rem;
     font-family: "Monofett", cursive;
     color: #1520a6;
-    margin-bottom: 0.8rem;
     transition: color 0.5s;
 
     @media only screen and (max-width: 500px) {

@@ -23,7 +23,7 @@ export default {
   &__header {
     background: linear-gradient(to right, #007bff, #1520a6);
     color: #fff;
-    padding: 1rem;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: center;
 
@@ -35,6 +35,7 @@ export default {
   &__user {
     display: flex;
     align-items: center;
+    text-align: center;
   }
 
   &__avatar {
