@@ -20,7 +20,7 @@
 import axios, { baseURL } from "../axios";
 import socket from "socket.io-client";
 import moment from "moment";
-import sortByDates from "../dates";
+import { sortByDates } from "../util";
 import ChatHeader from "../components/ChatHeader";
 import ChatMain from "../components/ChatMain";
 import ChatInputArea from "../components/ChatInputArea";
@@ -49,8 +49,7 @@ export default {
           headers: { Authorization: this.$store.getters.token },
         });
         const { chat } = response.data;
-        chat.messages.reverse();
-        this.dates = sortByDates(chat.messages);
+        this.dates = sortByDates(chat.messages.reverse());
         this.correspondent = chat.users.find(
           (user) => user._id !== this.$store.getters.user._id
         );

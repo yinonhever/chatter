@@ -46,13 +46,13 @@ export default {
 .date-section {
   position: relative;
 
-  &:not(:last-child) {
-    margin-bottom: 5rem;
+  &:not(:first-child) {
+    margin-top: 5rem;
 
     &::after {
       content: "";
       position: absolute;
-      top: calc(100% + 2.5rem);
+      bottom: calc(100% + 2.3rem);
       left: 50%;
       transform: translateX(-50%);
       height: 1px;

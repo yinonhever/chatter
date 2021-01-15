@@ -27,8 +27,6 @@ export default {
   background-color: #1520a6;
   border-radius: 0.4rem;
   overflow: hidden;
-  display: flex;
-  align-items: center;
   transition: all 0.5s;
 
   &:hover {
@@ -40,6 +38,11 @@ export default {
     &:hover {
       background-color: transparent;
     }
+  }
+
+  a {
+    display: flex;
+    align-items: center;
   }
 
   &__img {

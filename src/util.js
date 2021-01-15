@@ -1,6 +1,6 @@
 import moment from "moment";
 
-const sortByDates = messages => {
+export const sortByDates = messages => {
     const dates = [];
     messages.forEach((message) => {
         const existingDateIndex = dates.findIndex(
@@ -19,5 +19,3 @@ const sortByDates = messages => {
     });
     return dates;
 }
-
-export default sortByDates;
