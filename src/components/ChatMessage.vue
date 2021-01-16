@@ -18,11 +18,10 @@
 import { formatTime } from "../util";
 
 export default {
-  emits: ["delete"],
   props: {
     message: Object,
   },
-  inject: ["getScrollbar", "deleteMessage"],
+  inject: ["deleteMessage", "getScrollbar"],
   computed: {
     isCurrentUser() {
       return this.message.sender._id === this.$store.getters.user._id;

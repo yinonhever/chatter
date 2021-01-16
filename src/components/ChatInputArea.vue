@@ -19,7 +19,6 @@
 
 <script>
 export default {
-  emits: ["changed", "send"],
   props: {
     sending: Boolean,
   },
