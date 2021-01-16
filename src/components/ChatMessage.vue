@@ -75,7 +75,7 @@ export default {
 
   &--user + &--correspondent,
   &--correspondent + &--user {
-    margin-top: 1.3rem;
+    margin-top: 1.2rem;
 
     @media only screen and (max-width: 500px) {
       margin-top: 1.1rem;

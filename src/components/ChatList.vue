@@ -23,6 +23,7 @@ export default {
   max-width: 50rem;
   margin: 0 auto;
   border-radius: 0.8rem;
+  background-color: rgba(#fff, 0.8);
   box-shadow: rgba(62, 57, 107, 0.36) 0px 16px 38px -12px,
     rgba(62, 57, 107, 0.12) 0px 4px 25px 0px,
     rgba(62, 57, 107, 0.2) 0px 8px 10px -5px;

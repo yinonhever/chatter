@@ -69,7 +69,6 @@ export default {
   display: flex;
   align-items: stretch;
   padding: 0 2rem;
-  background-color: rgba(#fff, 0.8);
   transition: all 0.5s;
 
   @media only screen and (max-width: 500px) {
