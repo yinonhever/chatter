@@ -4,7 +4,8 @@
     <ErrorMessage v-else-if="error" :error="error" />
     <section v-else class="explore">
       <SearchBox @search="filterUsers" />
-      <div class="explore__grid">
+      <NoResults v-if="!filteredUsers.length" />
+      <div v-else class="explore__grid">
         <ExploreCard
           v-for="user in filteredUsers"
           :key="user._id"
@@ -19,9 +20,10 @@
 import axios from "../axios";
 import SearchBox from "../components/SearchBox";
 import ExploreCard from "../components/ExploreCard";
+import NoResults from "../components/NoResults";
 
 export default {
-  components: { SearchBox, ExploreCard },
+  components: { SearchBox, ExploreCard, NoResults },
   data() {
     return {
       users: [],
