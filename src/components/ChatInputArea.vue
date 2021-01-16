@@ -1,9 +1,8 @@
 <template>
   <div class="chat__bottom">
-    <form class="chat__form" @submit.prevent="$emit('send')">
+    <form class="chat__form" @submit.prevent="submitHandler">
       <input
-        :value="input"
-        @input="$emit('changed', $event)"
+        v-model.trim="input"
         class="chat__input"
         placeholder="Type a message..."
         aria-label="Type a message"
@@ -22,8 +21,20 @@
 export default {
   emits: ["changed", "send"],
   props: {
-    input: String,
     sending: Boolean,
+  },
+  inject: ["sendMessage"],
+  data() {
+    return {
+      input: "",
+    };
+  },
+  methods: {
+    async submitHandler() {
+      if (!this.input) return;
+      const success = await this.sendMessage(this.input);
+      if (success) this.input = "";
+    },
   },
 };
 </script>

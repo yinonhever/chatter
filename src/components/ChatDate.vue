@@ -8,7 +8,6 @@
         v-for="message in messages"
         :key="message._id"
         :message="message"
-        @delete="(messageId) => $emit('delete-message', messageId)"
       />
     </TransitionGroup>
   </section>

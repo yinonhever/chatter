@@ -9,7 +9,6 @@
         v-for="dateItem in dates"
         :key="dateItem.date"
         v-bind="dateItem"
-        @delete-message="(messageId) => $emit('delete-message', messageId)"
       />
     </TransitionGroup>
   </main>
@@ -107,5 +106,17 @@ export default {
 .messages-leave-active,
 .messages-enter-active {
   transition: all 0.5s;
+}
+
+.messages-leave-active:not(.date-section) {
+  position: absolute;
+}
+
+.messages-move {
+  transition: transform 0.3s 0.4s;
+}
+
+.messages-enter-active ~ .messages-move {
+  transition: none;
 }
 </style>

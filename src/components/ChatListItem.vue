@@ -20,6 +20,7 @@
 
 <script>
 import moment from "moment";
+import { formatTime } from "../util";
 
 export default {
   props: {
@@ -36,9 +37,7 @@ export default {
     time() {
       const { sentAt } = this.lastMessage;
       if (moment(sentAt).format("L") === moment().format("L")) {
-        const hour = moment(sentAt).format("HH");
-        const minutes = moment(sentAt).format("mm");
-        return `${hour}:${minutes}`;
+        return formatTime(sentAt);
       } else {
         return moment(sentAt).format("L");
       }

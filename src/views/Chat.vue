@@ -4,13 +4,8 @@
     <ErrorMessage v-else-if="errorLoading" :error="errorLoading" />
     <div v-else class="chat zoom-in">
       <ChatHeader :user="correspondent" />
-      <ChatMain :dates="dates" @delete-message="deleteMessage" />
-      <ChatInputArea
-        :input="input"
-        @changed="setInput"
-        @send="sendMessage"
-        :sending="sending"
-      />
+      <ChatMain :dates="dates" />
+      <ChatInputArea :sending="sending" />
     </div>
     <ErrorMessage v-if="errorSending" :error="errorSending" />
   </Page>
@@ -35,7 +30,6 @@ export default {
       chatId: null,
       dates: [],
       correspondent: null,
-      input: "",
       loading: true,
       errorLoading: null,
       sending: false,
@@ -74,24 +68,21 @@ export default {
         this.removeMessageById(messageId)
       );
     },
-    setInput(event) {
-      this.input = event.target.value;
-    },
-    async sendMessage() {
-      if (!this.input.trim()) return;
+    async sendMessage(input) {
       this.sending = true;
       try {
         await axios.post(
           `/api/chats/${this.chatId}`,
-          { message: this.input },
+          { message: input },
           { headers: { Authorization: this.$store.getters.token } }
         );
-        this.input = "";
         this.errorSending = null;
+        this.sending = false;
+        return true;
       } catch (error) {
         this.errorSending = error;
+        this.sending = false;
       }
-      this.sending = false;
     },
     deleteMessage(messageId) {
       this.removeMessageById(messageId);
@@ -134,6 +125,12 @@ export default {
   created() {
     this.loadChat();
     this.initSocket();
+  },
+  provide() {
+    return {
+      sendMessage: this.sendMessage,
+      deleteMessage: this.deleteMessage,
+    };
   },
 };
 </script>

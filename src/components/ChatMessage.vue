@@ -7,7 +7,7 @@
         <i
           v-if="isCurrentUser"
           class="message__delete fas fa-times"
-          @click="$emit('delete', message._id)"
+          @click="deleteMessage(message._id)"
         />
       </div>
     </div>
@@ -15,20 +15,20 @@
 </template>
 
 <script>
-import moment from "moment";
+import { formatTime } from "../util";
 
 export default {
   emits: ["delete"],
   props: {
     message: Object,
   },
-  inject: ["getScrollbar"],
+  inject: ["getScrollbar", "deleteMessage"],
   computed: {
     isCurrentUser() {
       return this.message.sender._id === this.$store.getters.user._id;
     },
     time() {
-      return moment(this.message.sentAt).format("LT");
+      return formatTime(this.message.sentAt);
     },
     classes() {
       let classes = "message";
@@ -54,6 +54,7 @@ export default {
 .message {
   display: flex;
   align-items: center;
+  width: 100%;
   font-size: 1.3rem;
 
   * {
@@ -75,6 +76,10 @@ export default {
   &--user + &--correspondent,
   &--correspondent + &--user {
     margin-top: 1.3rem;
+
+    @media only screen and (max-width: 500px) {
+      margin-top: 1.1rem;
+    }
   }
 
   &__content {
@@ -111,7 +116,7 @@ export default {
   }
 
   &__time {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
   &__delete {

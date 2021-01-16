@@ -19,3 +19,9 @@ export const sortByDates = messages => {
     });
     return dates;
 }
+
+export const formatTime = date => {
+    const hour = moment(date).format("HH");
+    const minutes = moment(date).format("mm");
+    return `${hour}:${minutes}`;
+}
