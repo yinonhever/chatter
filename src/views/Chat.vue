@@ -34,6 +34,7 @@ export default {
       errorLoading: null,
       sending: false,
       errorSending: null,
+      io: socket(baseURL),
     };
   },
   methods: {
@@ -62,9 +63,8 @@ export default {
       );
     },
     initSocket() {
-      const io = socket(baseURL);
-      io.on("addMessage", ({ message }) => this.addMessage(message));
-      io.on("deleteMessage", ({ messageId }) =>
+      this.io.on("addMessage", ({ message }) => this.addMessage(message));
+      this.io.on("deleteMessage", ({ messageId }) =>
         this.removeMessageById(messageId)
       );
     },
@@ -130,6 +130,7 @@ export default {
     return {
       sendMessage: this.sendMessage,
       deleteMessage: this.deleteMessage,
+      getIo: () => this.io,
     };
   },
 };

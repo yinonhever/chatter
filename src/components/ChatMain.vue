@@ -20,6 +20,7 @@ import ChatDate from "./ChatDate";
 
 export default {
   components: { ChatDate },
+  inject: ["getIo"],
   props: {
     dates: {
       type: Array,
@@ -35,6 +36,9 @@ export default {
     const { container } = this.$refs;
     this.scrollbar = Scrollbar.init(container);
     this.scrollbar.scrollTop = container.scrollHeight;
+    this.getIo().on("addMessage", () => {
+      this.scrollbar.track.yAxis.show();
+    });
   },
   provide() {
     return {
