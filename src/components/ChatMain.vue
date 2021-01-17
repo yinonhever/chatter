@@ -27,18 +27,13 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      scrollbar: null,
-    };
-  },
   mounted() {
     const { container } = this.$refs;
-    this.scrollbar = Scrollbar.init(container);
-    this.scrollbar.scrollTop = container.scrollHeight;
+    const scrollbar = Scrollbar.init(container);
+    scrollbar.scrollTop = container.scrollHeight;
     this.getIo().on("addMessage", () => {
       setTimeout(() => {
-        this.scrollbar.scrollTop += 1000;
+        scrollbar.scrollTop = container.scrollHeight;
       }, 100);
     });
   },
