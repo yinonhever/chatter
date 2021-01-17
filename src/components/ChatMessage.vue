@@ -21,7 +21,7 @@ export default {
   props: {
     message: Object,
   },
-  inject: ["deleteMessage", "getScrollbar"],
+  inject: ["deleteMessage"],
   computed: {
     isCurrentUser() {
       return this.message.sender._id === this.$store.getters.user._id;
@@ -38,13 +38,6 @@ export default {
       }
       return classes;
     },
-  },
-  mounted() {
-    const scrollbar = this.getScrollbar();
-    const { message } = this.$refs;
-    if (scrollbar) {
-      scrollbar.scrollTop += message.offsetHeight;
-    }
   },
 };
 </script>

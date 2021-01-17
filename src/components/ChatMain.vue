@@ -37,7 +37,9 @@ export default {
     this.scrollbar = Scrollbar.init(container);
     this.scrollbar.scrollTop = container.scrollHeight;
     this.getIo().on("addMessage", () => {
-      this.scrollbar.track.yAxis.show();
+      setTimeout(() => {
+        this.scrollbar.scrollTop += 1000;
+      }, 100);
     });
   },
   provide() {

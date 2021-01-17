@@ -23,20 +23,12 @@ export default {
     date: Date,
     messages: Array,
   },
-  inject: ["getScrollbar"],
   computed: {
     displayedDate() {
       return (
         moment(this.date).format("ddd") + ", " + moment(this.date).format("ll")
       );
     },
-  },
-  mounted() {
-    const scrollbar = this.getScrollbar();
-    const { section } = this.$refs;
-    if (scrollbar) {
-      scrollbar.scrollTop += section.offsetHeight * 2;
-    }
   },
 };
 </script>
