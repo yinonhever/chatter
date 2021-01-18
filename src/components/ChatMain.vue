@@ -37,11 +37,6 @@ export default {
       }, 100);
     });
   },
-  provide() {
-    return {
-      getScrollbar: () => this.scrollbar,
-    };
-  },
 };
 </script>
 
