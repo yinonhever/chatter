@@ -1,10 +1,12 @@
 <template>
   <main class="chat__main" ref="container">
-    <div v-if="!dates.length" class="chat__empty">
-      <i class="far fa-comments" />
-      <p>Start a chat by typing a message below.</p>
-    </div>
-    <TransitionGroup v-else tag="div" class="chat__timeline" name="messages">
+    <Transition name="empty">
+      <div v-if="!dates.length" class="chat__empty">
+        <i class="far fa-comments" />
+        <p>Start a chat by typing a message below.</p>
+      </div>
+    </Transition>
+    <TransitionGroup tag="div" class="chat__timeline" name="messages">
       <ChatDate
         v-for="dateItem in dates"
         :key="dateItem.date"
@@ -50,9 +52,6 @@ export default {
 
     .scroll-content {
       min-height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
   }
 
@@ -60,7 +59,11 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: absolute;
     width: 100%;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
     text-align: center;
     padding: 2rem;
 
@@ -114,5 +117,19 @@ export default {
 
 .messages-enter-active ~ .messages-move {
   transition: none;
+}
+
+.empty-enter-from {
+  opacity: 0;
+  transform: scale(0) translateY(-50%);
+}
+
+.empty-enter-active {
+  transition: all 0.5s;
+}
+
+.empty-enter-to {
+  opacity: 1;
+  transform: scale(1) translateY(-50%);
 }
 </style>
