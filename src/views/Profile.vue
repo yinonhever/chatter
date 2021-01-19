@@ -48,7 +48,7 @@ export default {
   components: { EditButton },
   props: {
     userId: {
-      type: String,
+      type: null,
       required: true,
     },
   },
@@ -61,7 +61,8 @@ export default {
   },
   computed: {
     isCurrentUser() {
-      return this.userId === this.$store.getters.user._id;
+      const { _id: currentUserId } = this.$store.getters.user || {};
+      return this.userId === currentUserId;
     },
     title() {
       return this.isCurrentUser ? "My Profile" : "User Profile";
