@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes" ref="message">
+  <div :class="classes">
     <div class="message__content">
       <p class="message__text">{{ message.content }}</p>
       <div class="message__bottom">

@@ -1,5 +1,5 @@
 <template>
-  <section class="date-section" ref="section">
+  <section class="date-section">
     <h3 class="date-section__date">
       {{ displayedDate }}
     </h3>
