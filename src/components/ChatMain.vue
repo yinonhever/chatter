@@ -48,6 +48,14 @@ export default {
     height: 50rem;
     overflow: auto;
     background-color: rgba(#fff, 0.6);
+    background-image: linear-gradient(
+        to right,
+        rgba(#fff, 0.85),
+        rgba(#fff, 0.85)
+      ),
+      url(../assets/Launch-Day-2.svg);
+    background-size: cover;
+    background-position: center;
     position: relative;
 
     .scroll-content {

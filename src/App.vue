@@ -38,7 +38,12 @@ html {
 body {
   font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
-  background-image: url(./assets/white-background-abstract-shapes.jpg);
+  background-image: linear-gradient(
+      to right,
+      rgba(#fff, 0.55),
+      rgba(#fff, 0.55)
+    ),
+    url(./assets/azure-waves.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

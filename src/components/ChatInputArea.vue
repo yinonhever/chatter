@@ -41,7 +41,7 @@ export default {
 <style lang="scss">
 .chat {
   &__bottom {
-    background-color: #eee;
+    background-color: #cde4fd;
     padding: 1rem 2rem;
 
     @media only screen and (max-width: 500px) {

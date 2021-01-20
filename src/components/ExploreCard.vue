@@ -24,7 +24,7 @@ export default {
 
 <style lang="scss">
 .card {
-  background-color: #fff;
+  background-color: rgba(#fff, 0.9);
   border-radius: 0.8rem;
   box-shadow: rgba(62, 57, 107, 0.3) 0px 6px 16px 0px;
   padding: 2.75rem 2.5rem;
@@ -59,13 +59,19 @@ export default {
 
   .button {
     font-size: 1.3rem;
+    border: 2px solid #007bff;
+
+    &:hover {
+      border-color: transparent;
+    }
 
     &:first-child {
-      background-color: #1520a6;
+      background-color: transparent;
+      color: #007bff;
 
       &:hover {
-        background-color: #fff;
-        color: #1520a6;
+        background-color: #1520a6;
+        color: #fff;
       }
     }
   }

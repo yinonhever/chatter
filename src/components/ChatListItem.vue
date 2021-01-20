@@ -76,7 +76,7 @@ export default {
   }
 
   &:hover {
-    background-color: rgba(#ccc, 0.6);
+    background-color: rgba(#c3dffc, 0.8);
   }
 
   * {
