@@ -38,12 +38,8 @@ html {
 body {
   font-family: "Montserrat", sans-serif;
   font-size: 1.4rem;
-  background-image: linear-gradient(
-      to right,
-      rgba(#fff, 0.55),
-      rgba(#fff, 0.55)
-    ),
-    url(./assets/azure-waves.jpg);
+  background-image: linear-gradient(to right, rgba(#fff, 0.6), rgba(#fff, 0.6)),
+    url(./assets/Global-Blob-2.svg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

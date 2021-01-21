@@ -1,8 +1,7 @@
 <template>
   <NavItem link="/profile" class="greeting-box">
     <img class="greeting-box__img" :src="user.avatar" :alt="user.name" />
-    <span class="greeting-box__text hide-mobile">Hello, {{ name }}</span>
-    <span class="greeting-box__text hide-desktop">Profile</span>
+    <span class="greeting-box__text">Hello, {{ name }}</span>
   </NavItem>
 </template>
 
@@ -37,19 +36,30 @@ export default {
     &,
     &:hover {
       background-color: transparent;
+      border-radius: initial;
+      margin-bottom: 5.5rem !important;
+      transform: translateX(50vw);
     }
   }
 
   a {
     display: flex;
     align-items: center;
+
+    @media only screen and (max-width: 900px) {
+      flex-direction: column;
+    }
   }
 
   &__img {
     height: 3rem;
+    width: 3rem;
 
     @media only screen and (max-width: 900px) {
-      display: none;
+      height: 5rem;
+      width: 5rem;
+      border-radius: 50%;
+      margin-bottom: 1rem;
     }
   }
 
@@ -64,8 +74,8 @@ export default {
     }
 
     @media only screen and (max-width: 900px) {
-      text-transform: uppercase;
-      font-size: 1.35rem;
+      font-weight: 600;
+      font-size: 2.1rem;
     }
   }
 }

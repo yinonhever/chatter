@@ -7,10 +7,13 @@
     <nav class="header__navigation">
       <NavItem v-if="!isAuth" link="/login">Login</NavItem>
       <NavItem v-if="!isAuth" link="/signup">Signup</NavItem>
+      <GreetingBox v-if="isAuth" />
       <NavItem v-if="isAuth" class="hide-desktop" link="/explore">
         Explore
       </NavItem>
-      <GreetingBox v-if="isAuth" />
+      <NavItem v-if="isAuth" class="hide-desktop" link="/profile">
+        Profile
+      </NavItem>
       <NavItem v-if="isAuth" link="/chats">My Chats</NavItem>
       <NavItem v-if="isAuth" @click="logout">Logout</NavItem>
     </nav>
@@ -163,9 +166,11 @@ export default {
       position: absolute;
       top: 45vh;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -45%);
       flex-direction: column;
       align-items: center;
+      justify-content: space-between;
+      min-height: 8rem;
       text-align: center;
       opacity: 0;
       visibility: hidden;
@@ -185,7 +190,7 @@ export default {
 
       &:not(:last-child) {
         margin-right: 0;
-        margin-bottom: 3.5rem;
+        margin-bottom: 3rem;
       }
     }
 
