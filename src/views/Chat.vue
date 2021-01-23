@@ -63,7 +63,14 @@ export default {
       );
     },
     initSocket() {
-      this.io.on("addMessage", ({ message }) => this.addMessage(message));
+      this.io.on("addMessage", ({ message }) => {
+        if (
+          message.sender._id === this.$store.getters.user._id ||
+          message.sender._id === this.correspondent._id
+        ) {
+          this.addMessage(message);
+        }
+      });
       this.io.on("deleteMessage", ({ messageId }) =>
         this.removeMessageById(messageId)
       );

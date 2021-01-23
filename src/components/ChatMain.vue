@@ -36,7 +36,7 @@ export default {
     this.getIo().on("addMessage", () => {
       setTimeout(() => {
         scrollbar.scrollTop = container.scrollHeight;
-      }, 100);
+      }, 10);
     });
   },
 };
