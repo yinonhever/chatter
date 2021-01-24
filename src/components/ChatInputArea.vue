@@ -5,6 +5,7 @@
         v-model.trim="input"
         class="chat__input"
         placeholder="Type a message..."
+        :readonly="sending"
         aria-label="Type a message"
       />
       <div class="chat__submit">
@@ -30,7 +31,7 @@ export default {
   },
   methods: {
     async submitHandler() {
-      if (!this.input) return;
+      if (!this.input || this.sending) return;
       const success = await this.sendMessage(this.input);
       if (success) this.input = "";
     },

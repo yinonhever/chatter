@@ -63,11 +63,8 @@ export default {
       );
     },
     initSocket() {
-      this.io.on("addMessage", ({ message }) => {
-        if (
-          message.sender._id === this.$store.getters.user._id ||
-          message.sender._id === this.correspondent._id
-        ) {
+      this.io.on("addMessage", ({ chatId, message }) => {
+        if (chatId === this.chatId) {
           this.addMessage(message);
         }
       });
@@ -78,11 +75,12 @@ export default {
     async sendMessage(input) {
       this.sending = true;
       try {
-        await axios.post(
+        const response = await axios.post(
           `/api/chats/${this.chatId}`,
           { message: input },
           { headers: { Authorization: this.$store.getters.token } }
         );
+        this.addMessage(response.data.messageData);
         this.errorSending = null;
         this.sending = false;
         return true;
@@ -103,7 +101,10 @@ export default {
           moment(item.date).format("LL") === moment(message.sentAt).format("LL")
       );
       if (index >= 0) {
-        this.dates[index].messages.push(message);
+        const { messages } = this.dates[index];
+        if (!messages.find((msg) => msg._id === message._id)) {
+          this.dates[index].messages.push(message);
+        }
       } else {
         this.dates.push({
           date: new Date(message.sentAt),
