@@ -20,6 +20,7 @@ export default {
       chats: [],
       loading: true,
       error: null,
+      io: socket(baseURL),
     };
   },
   methods: {
@@ -29,6 +30,11 @@ export default {
           headers: { Authorization: this.$store.getters.token },
         });
         this.chats = response.data;
+        this.io.emit(
+          "joinRooms",
+          ...this.chats.map((chat) => chat._id),
+          this.$store.getters.user._id
+        );
       } catch (error) {
         if (handleError) {
           this.error = error;
@@ -37,8 +43,7 @@ export default {
       this.loading = false;
     },
     initSocket() {
-      const io = socket(baseURL);
-      io.on("addMessage", ({ chatId, message }) => {
+      this.io.on("addMessage", ({ chatId, message }) => {
         const index = this.chats.findIndex((chat) => chat._id === chatId);
         if (index >= 0) {
           this.chats[index].lastMessage = message;
@@ -53,7 +58,7 @@ export default {
           this.loadChats(false);
         }
       });
-      io.on("deleteMessage", () => this.loadChats(false));
+      this.io.on("deleteMessage", () => this.loadChats(false));
     },
   },
   created() {

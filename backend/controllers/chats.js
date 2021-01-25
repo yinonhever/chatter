@@ -123,7 +123,10 @@ exports.sendMessage = async (req, res) => {
         chat.messages.unshift(newMessage);
         newMessage._id = chat.messages[0]._id;
         await chat.save();
-        io.get().emit("addMessage", { chatId, message: newMessage });
+
+        const addressUserId = chat.users.find(userId => userId.toString() !== req.userId);
+        io.get().to(chatId).to(addressUserId)
+            .emit("addMessage", { chatId, message: newMessage });
 
         res.status(201).json({ message: "Message sent", messageData: newMessage });
     } catch (err) {
@@ -149,7 +152,10 @@ exports.unsendMessage = async (req, res) => {
 
         chat.messages = chat.messages.filter(msg => msg._id.toString() !== messageId);
         await chat.save();
-        io.get().emit("deleteMessage", { messageId });
+
+        const addressUserId = chat.users.find(userId => userId.toString() !== req.userId);
+        io.get().to(chatId).to(addressUserId)
+            .emit("deleteMessage", { messageId });
 
         res.status(200).json({ message: "Message deleted" });
     } catch (err) {

@@ -50,6 +50,7 @@ export default {
         );
         this.chatId = chat._id;
         this.markAsRead();
+        this.io.emit("joinRooms", this.chatId, this.$store.getters.user._id);
       } catch (error) {
         this.errorLoading = error;
       }
@@ -63,11 +64,7 @@ export default {
       );
     },
     initSocket() {
-      this.io.on("addMessage", ({ chatId, message }) => {
-        if (chatId === this.chatId) {
-          this.addMessage(message);
-        }
-      });
+      this.io.on("addMessage", ({ message }) => this.addMessage(message));
       this.io.on("deleteMessage", ({ messageId }) =>
         this.removeMessageById(messageId)
       );
@@ -75,12 +72,11 @@ export default {
     async sendMessage(input) {
       this.sending = true;
       try {
-        const response = await axios.post(
+        await axios.post(
           `/api/chats/${this.chatId}`,
           { message: input },
           { headers: { Authorization: this.$store.getters.token } }
         );
-        this.addMessage(response.data.messageData);
         this.errorSending = null;
         this.sending = false;
         return true;
@@ -101,10 +97,7 @@ export default {
           moment(item.date).format("LL") === moment(message.sentAt).format("LL")
       );
       if (index >= 0) {
-        const { messages } = this.dates[index];
-        if (!messages.find((msg) => msg._id === message._id)) {
-          this.dates[index].messages.push(message);
-        }
+        this.dates[index].messages.push(message);
       } else {
         this.dates.push({
           date: new Date(message.sentAt),
