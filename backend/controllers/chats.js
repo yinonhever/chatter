@@ -1,7 +1,8 @@
 const Chat = require("../models/chat");
 const User = require("../models/user");
 const { validationResult } = require("express-validator");
-const io = require("../socket");
+const socket = require("../socket");
+const { DEFAULT_ERROR_MESSAGE } = require("../util");
 
 exports.getUserChats = async (req, res) => {
     try {
@@ -38,7 +39,7 @@ exports.getUserChats = async (req, res) => {
         res.status(200).json(data);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "An error occured. Please try again in a moment." });
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }
 
@@ -94,7 +95,7 @@ exports.createOrOpenChat = async (req, res) => {
         res.status(201).json({ message: "New chat created", chat: createdChat });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "An error occured. Please try again in a moment." });
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }
 
@@ -125,13 +126,14 @@ exports.sendMessage = async (req, res) => {
         await chat.save();
 
         const addressUserId = chat.users.find(userId => userId.toString() !== req.userId);
-        io.get().to(chatId).to(addressUserId)
+        const io = socket.get();
+        io.to(chatId).to(req.userId).to(addressUserId)
             .emit("addMessage", { chatId, message: newMessage });
 
         res.status(201).json({ message: "Message sent", messageData: newMessage });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Couldn't send message. Please try again in a moment." });
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }
 
@@ -154,13 +156,14 @@ exports.unsendMessage = async (req, res) => {
         await chat.save();
 
         const addressUserId = chat.users.find(userId => userId.toString() !== req.userId);
-        io.get().to(chatId).to(addressUserId)
+        const io = socket.get();
+        io.to(chatId).to(req.userId).to(addressUserId)
             .emit("deleteMessage", { messageId });
 
         res.status(200).json({ message: "Message deleted" });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Couldn't delete message. Please try again in a moment." });
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }
 
@@ -181,7 +184,8 @@ exports.markAsRead = async (req, res) => {
         });
         await chat.save();
         res.status(200).json({ message: "Marked messages as read", chat });
-    } catch (error) {
-        res.status(500).json({ message: "An error occured. Please try again in a moment." });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }

@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { DEFAULT_ERROR_MESSAGE } = require("../util");
 
 module.exports = (req, res, next) => {
     try {
@@ -14,6 +15,6 @@ module.exports = (req, res, next) => {
         next();
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "An error occured. Please try again in a moment." });
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }

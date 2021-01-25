@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
+const { DEFAULT_ERROR_MESSAGE } = require("../util");
 
 exports.signup = async (req, res) => {
     try {
@@ -35,7 +36,7 @@ exports.signup = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "An error occured. Please try again in a moment." });
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }
 
@@ -65,7 +66,7 @@ exports.login = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "An error occured. Please try again in a moment." });
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }
 
@@ -76,7 +77,7 @@ exports.getUsers = async (req, res) => {
         res.status(200).json(users);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "An error occured. Please try again in a moment." });
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }
 
@@ -90,7 +91,7 @@ exports.getUserDetails = async (req, res) => {
         res.status(200).json(user);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "An error occured. Please try again in a moment." });
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }
 
@@ -116,6 +117,6 @@ exports.updateUserDetails = async (req, res) => {
         res.status(200).json({ message: "Successfully updated profile", user });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "An error occured. Please try again in a moment." });
+        res.status(500).json({ message: DEFAULT_ERROR_MESSAGE });
     }
 }

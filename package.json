@@ -15,6 +15,7 @@
     "socket.io-client": "^3.0.5",
     "vue": "^3.0.0",
     "vue-flatpickr-component": "^9.0.3",
+    "vue-recaptcha-v3": "^2.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },

@@ -1,0 +1,1 @@
+exports.DEFAULT_ERROR_MESSAGE = "An error occured. Please try again in a moment.";
