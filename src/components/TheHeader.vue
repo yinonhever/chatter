@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch("logout");
+      this.$store.dispatch("setLogout");
     },
     toggleNav() {
       this.navOpen = !this.navOpen;
@@ -53,18 +53,9 @@ export default {
       this.navOpen = false;
     },
   },
-  provide() {
-    return {
-      closeNav: this.closeNav,
-    };
-  },
   watch: {
     navOpen(value) {
-      if (value) {
-        document.querySelector("body").style.overflow = "hidden";
-      } else {
-        document.querySelector("body").style.overflow = null;
-      }
+      document.querySelector("body").style.overflow = value ? "hidden" : null;
     },
   },
   created() {
@@ -73,6 +64,11 @@ export default {
         this.closeNav();
       }
     });
+  },
+  provide() {
+    return {
+      closeNav: this.closeNav,
+    };
   },
 };
 </script>

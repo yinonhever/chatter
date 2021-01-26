@@ -43,7 +43,7 @@ export default createStore({
             localStorage.setItem("user", JSON.stringify(user));
             localStorage.setItem("expirationDate", expirationDate);
 
-            logoutTimer = setTimeout(() => context.dispatch("logout"), expiresIn);
+            logoutTimer = setTimeout(() => context.dispatch("setLogout"), expiresIn);
         },
         tryAutoLogin(context) {
             const { token, expirationDate } = localStorage;
@@ -55,13 +55,17 @@ export default createStore({
                 return;
             }
             context.commit("login", { token, user });
-            logoutTimer = setTimeout(() => context.dispatch("logout"), timeLeft);
+            logoutTimer = setTimeout(() => context.dispatch("setLogout"), timeLeft);
+        },
+        setLogout(context) {
+            context.dispatch("logout");
+            localStorage.setItem("logout", "logout-" + Math.random());
         },
         logout(context) {
             context.commit("logout");
-            localStorage.clear();
             clearTimeout(logoutTimer);
             router.push("/login");
+            localStorage.clear();
         },
         updateUser(context, payload) {
             context.commit("updateUser", payload);

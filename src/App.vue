@@ -14,6 +14,11 @@ export default {
   components: { TheHeader },
   created() {
     this.$store.dispatch("tryAutoLogin");
+    window.addEventListener("storage", (event) => {
+      if (event.key === "logout" && this.$store.getters.isAuth) {
+        this.$store.dispatch("logout");
+      }
+    });
   },
 };
 </script>
